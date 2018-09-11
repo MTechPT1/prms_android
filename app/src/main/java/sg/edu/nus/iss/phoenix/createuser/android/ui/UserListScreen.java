@@ -9,6 +9,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import sg.edu.nus.iss.phoenix.R;
+import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
 public class UserListScreen extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class UserListScreen extends AppCompatActivity {
          userListView = (ListView) findViewById(R.id.userlist);
          adapter = new UserListAdapter(this,userList);
          userListView.setAdapter(adapter);
+
     }
 
     @Override
@@ -43,9 +45,10 @@ public class UserListScreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add){
             // create new user
+            ControlFactory.getMaintainUserController().setMaintainUser(1);
             return true;
         }else{
-            return true;
+            return false;
         }
     }
 

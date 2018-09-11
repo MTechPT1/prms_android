@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import sg.edu.nus.iss.phoenix.R;
+import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
 public class UserListAdapter extends BaseAdapter {
@@ -83,11 +84,11 @@ public class UserListAdapter extends BaseAdapter {
 
                 switch (menuItem.getItemId()) {
                     case 1:{ // edit
-                        eidtUser(position);
+                        editUser(position);
                     }
                     break;
                     case 2:{ // add
-                        addUser(position);
+                        deleteUser(position);
                     }
                     break;
                 }
@@ -97,12 +98,14 @@ public class UserListAdapter extends BaseAdapter {
         popup.show();
     }
 
-    private void eidtUser(int p){
+    private void editUser(int p){
          System.out.print(p);
+        ControlFactory.getMaintainUserController().setMaintainUser(1);
     }
 
-    private void addUser(int p){
+    private void deleteUser(int p){
         System.out.print(p);
+        ControlFactory.getMaintainUserController().setMaintainUser(2);
     }
 
 }

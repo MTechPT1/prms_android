@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import sg.edu.nus.iss.phoenix.R;
+import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
 public class MaintainUserScreen extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -19,7 +20,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     private static final int TYPE_DELETE = 2;
 
     private static final String CREATE_BTN = "CREATE";
-    private static final String MODIFY_BTN = "NODIFY";
+    private static final String MODIFY_BTN = "MODIFY";
     private static final String DELETE_BTN = "DELETE";
 
     private ListView maintainuserListView;
@@ -31,6 +32,9 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        actionType = ControlFactory.getMaintainUserController().getActionType();
+
         setContentView(R.layout.acitivity_maintainuser);
         initView();
     }
