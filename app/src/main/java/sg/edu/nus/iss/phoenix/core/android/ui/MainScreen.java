@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
+import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 
 public class MainScreen extends AppCompatActivity {
     private Button mbtn_radio_program;
     private Button mbtn_schedule;
+    private Button mbtn_user;
     private Button mbtn_logout;
 
     @Override
@@ -40,6 +42,15 @@ public class MainScreen extends AppCompatActivity {
                 ControlFactory.getMainController().selectMaintainSchedule();
             }
 
+        });
+
+        //Maintain user
+        mbtn_user = (Button) findViewById(R.id.button_user);
+        mbtn_user.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                ControlFactory.getMainController().selectMaintainUser();
+            }
         });
 
         // Log out  - Back to PRMS  Activity - Pre Login Page
