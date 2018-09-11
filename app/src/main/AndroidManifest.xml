@@ -38,6 +38,8 @@
         <activity android:name=".radioprogram.android.ui.ProgramListScreen" />
         <activity android:name=".radioprogram.android.ui.MaintainProgramScreen" />
         <activity android:name=".radioprogram.android.ui.ReviewSelectProgramScreen"></activity>
+        <activity android:name=".createuser.android.ui.MaintainUserScreen"></activity>
+        <activity android:name=".createuser.android.ui.UserListScreen"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <CheckedTextView
+        android:id="@+id/role_selection_text"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dip"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:paddingRight="6dip"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp" />
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.phoenix.core.android.controller;
 
 import sg.edu.nus.iss.phoenix.authenticate.android.controller.LoginController;
+import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.radioprogram.android.controller.ProgramController;
 import sg.edu.nus.iss.phoenix.radioprogram.android.controller.ReviewSelectProgramController;
 
@@ -9,7 +10,7 @@ public class ControlFactory {
     private static LoginController loginController = null;
     private static ProgramController programController = null;
     private static ReviewSelectProgramController reviewSelectProgramController = null;
-
+    private static MaintainUserController maintainUserController = null;
     public static MainController getMainController() {
         if (mainController == null) mainController = new MainController();
         return mainController;
@@ -28,5 +29,10 @@ public class ControlFactory {
     public static ReviewSelectProgramController getReviewSelectProgramController() {
         if (reviewSelectProgramController == null) reviewSelectProgramController = new ReviewSelectProgramController();
         return reviewSelectProgramController;
+    }
+
+    public static MaintainUserController getMaintainUserController(){
+        if (maintainUserController==null) maintainUserController = new MaintainUserController();
+        return maintainUserController;
     }
 }
