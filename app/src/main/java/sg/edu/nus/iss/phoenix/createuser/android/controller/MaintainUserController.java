@@ -2,13 +2,10 @@ package sg.edu.nus.iss.phoenix.createuser.android.controller;
 
 import android.content.Intent;
 
-import java.security.PublicKey;
-
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.MaintainUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.MaintainUserScreen;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.UserListScreen;
-import sg.edu.nus.iss.phoenix.radioprogram.android.ui.ProgramListScreen;
 
 public class MaintainUserController {
      private UserListScreen userListScreen;
