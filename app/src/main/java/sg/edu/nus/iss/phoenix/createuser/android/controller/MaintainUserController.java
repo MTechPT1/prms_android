@@ -1,15 +1,25 @@
 package sg.edu.nus.iss.phoenix.createuser.android.controller;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
+import sg.edu.nus.iss.phoenix.createuser.android.delegate.CreateUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.MaintainUserDelegate;
+import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.MaintainUserScreen;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.UserListScreen;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class MaintainUserController {
      private UserListScreen userListScreen;
      private MaintainUserScreen maintainUserScreen;
+    static private String PRMS_BASE_URL = "https://localhost";
 
      private int actionType;
 
@@ -37,4 +47,38 @@ public class MaintainUserController {
         MainController.displayScreen(intent);
     }
 
+    public void processCreateUser(User user){
+        new CreateUserDelegate().execute(user);
+
+
+    }
+
+    public void processDeleteUser(User user){
+
+    }
+
+    public void processModifyUser(User user){
+
+    }
+
+    static public URL buildUrl(String endpoint, User user){
+        Uri.Builder uri = Uri.parse(PRMS_BASE_URL).buildUpon().appendPath(endpoint)
+                .appendQueryParameter("id",user.getUserId())
+                .appendQueryParameter("password","abcd")
+                .appendQueryParameter("name",user.getUserName())
+                .appendQueryParameter("role","Presenter");
+
+        Log.v(TAG,uri.toString());
+
+        URL url = null;
+
+        try{
+            url = new URL(uri.toString());
+
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        return url;
+    }
 }
