@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -43,27 +44,30 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
         TextView textView_schedule_program = (TextView)listItemView.findViewById(R.id.textView_schedule_program);
         textView_schedule_program.setText("TimeSlot"+position);
 
-        addButtonAction(convertView,position);
+
+
+        addButtonAction(listItemView,position);
 
         return listItemView;
     }
 
     private void addButtonAction(final View convertview, final int position) {
-//        ImageButton optionBtn = (ImageButton) convertview.findViewById(R.id.optionBtn);
-//        optionBtn.setTag(position);
-//        optionBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int p = (int)v.getTag();
-//                addListOfOptionButtons(convertview, p);
-//            }
-//        });
+        ImageButton optionBtn = (ImageButton) convertview.findViewById(R.id.optionBtn);
+        optionBtn.setTag(position);
+        optionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int p = (int)v.getTag();
+                addListOfOptionButtons(convertview, p);
+            }
+        });
     }
 
     private void addListOfOptionButtons(View v, final int position){
         PopupMenu popup = new PopupMenu(context, v.findViewWithTag(position), Gravity.CENTER);
         popup.getMenu().add(Menu.NONE, 1, 1, "EDIT");
-        popup.getMenu().add(Menu.NONE, 2, 2, "DELETE");
+        popup.getMenu().add(Menu.NONE, 2, 2, "COPY");
+        popup.getMenu().add(Menu.NONE, 3, 3, "DELETE");
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
             @Override
@@ -74,7 +78,11 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
                         editSchedule(position);
                     }
                     break;
-                    case 2:{ // add
+                    case 2:{ // copy
+                        copySchedule(position);
+                    }
+                    break;
+                    case 3:{ // delete
                         deleteSchedule(position);
                     }
                     break;
@@ -91,8 +99,13 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
         ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(1);
     }
 
-    private void deleteSchedule(int p){
+    private void copySchedule(int p){
         System.out.print(p);
         ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(2);
+    }
+
+    private void deleteSchedule(int p){
+        System.out.print(p);
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(3);
     }
 }
