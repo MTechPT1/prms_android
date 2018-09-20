@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
@@ -137,7 +138,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule();
+                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE);
             }
         });
     }
