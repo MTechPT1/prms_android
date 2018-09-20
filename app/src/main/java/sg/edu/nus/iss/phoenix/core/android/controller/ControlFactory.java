@@ -4,6 +4,7 @@ import sg.edu.nus.iss.phoenix.authenticate.android.controller.LoginController;
 import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.radioprogram.android.controller.ProgramController;
 import sg.edu.nus.iss.phoenix.radioprogram.android.controller.ReviewSelectProgramController;
+import sg.edu.nus.iss.phoenix.schedule.android.controller.MaintainScheduleController;
 import sg.edu.nus.iss.phoenix.schedule.android.controller.ReviewSelectPresenterProducerController;
 import sg.edu.nus.iss.phoenix.schedule.android.controller.ReviewSelectScheduleProgramController;
 
@@ -14,6 +15,7 @@ public class ControlFactory {
     private static ReviewSelectProgramController reviewSelectProgramController = null;
     private static ReviewSelectScheduleProgramController reviewSelectScheduleProgramController = null;
     private static ReviewSelectPresenterProducerController reviewSelectPresenterProducerController = null;
+    private static MaintainScheduleController maintainScheduleController = null;
     private static MaintainUserController maintainUserController = null;
 
     public static MainController getMainController() {
@@ -44,6 +46,11 @@ public class ControlFactory {
     public static ReviewSelectPresenterProducerController getReviewSelectPresenterProducerController() {
         if (reviewSelectPresenterProducerController == null) reviewSelectPresenterProducerController = new ReviewSelectPresenterProducerController();
         return reviewSelectPresenterProducerController;
+    }
+
+    public static MaintainScheduleController getMaintainScheduleController(){
+        if (maintainScheduleController==null) maintainScheduleController = new MaintainScheduleController();
+        return maintainScheduleController;
     }
 
     public static MaintainUserController getMaintainUserController(){

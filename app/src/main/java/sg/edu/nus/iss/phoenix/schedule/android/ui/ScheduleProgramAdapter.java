@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
@@ -95,17 +96,14 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
 
 
     private void editSchedule(int p){
-        System.out.print(p);
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(1);
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.EDIT);
     }
 
     private void copySchedule(int p){
-        System.out.print(p);
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(2);
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.COPY);
     }
 
     private void deleteSchedule(int p){
-        System.out.print(p);
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(3);
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.DELETE);
     }
 }
