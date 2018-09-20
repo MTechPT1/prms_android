@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.phoenix.schedule.android.entity;
 
+import android.support.annotation.RestrictTo;
+
 import java.util.ArrayList;
 
 public class ScheduleProgram {
@@ -16,7 +18,9 @@ public class ScheduleProgram {
     }
 
     public String getAttribute(int index) {
-        return programSlots.get(index-1).getAttribute();
+        //TODO - Correct the logic here
+        //return programSlots.get(index-1).getAttribute();
+        return null;
     }
 
 }

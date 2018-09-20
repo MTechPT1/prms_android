@@ -4,39 +4,89 @@ import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 
 public class ProgramSlot {
 
-    String assignedBy;
-    String startTime;
-    int duration;
-    Presenter presenter;
-    Producer producer;
-    RadioProgram radioProgram;
+    private int id;
+    private int weekId;
+    private int duration;
 
+    private String assignedBy;
+    private String startTime;
 
-    public ProgramSlot(RadioProgram radioProgram, Presenter presenter, Producer producer, int duration, String assignedBy, String startTime) {
+    private Presenter presenter;
+    private Producer producer;
+    private RadioProgram radioProgram;
+
+    public ProgramSlot(int id, RadioProgram radioProgram, Presenter presenter, Producer producer, int duration, String assignedBy, String startTime,int weekId) {
+        this.id = id;
         this.radioProgram = radioProgram;
         this.presenter = presenter;
         this.producer = producer;
         this.duration = duration;
         this.assignedBy = assignedBy;
         this.startTime = startTime;
+        this.weekId = weekId;
     }
 
-    public void createProgramSlot(ProgramSlot programSlot) {
+    public int getId() {
+        return id;
     }
 
-    public String getAttribute() {
-        return radioProgram.getRadioProgramName();
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void isProgramSlotAssigned(int index) {
+    public String getAssignedBy() {
+        return assignedBy;
     }
 
-    public void modifyProgramSlot(ProgramSlot programSlot) {
+    public void setAssignedBy(String assignedBy) {
+        this.assignedBy = assignedBy;
     }
 
-    public void removeProgramSlot(ProgramSlot programSlot) {
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setAttribute() {
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public Presenter getPresenter() {
+        return presenter;
+    }
+
+    public void setPresenter(Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
+    }
+
+    public RadioProgram getRadioProgram() {
+        return radioProgram;
+    }
+
+    public void setRadioProgram(RadioProgram radioProgram) {
+        this.radioProgram = radioProgram;
+    }
+
+    public int getWeekId() {
+        return weekId;
+    }
+
+    public void setWeekId(int weekId) {
+        this.weekId = weekId;
     }
 }
