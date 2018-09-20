@@ -3,13 +3,17 @@ package sg.edu.nus.iss.phoenix.schedule.android.controller;
 import android.content.Intent;
 
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
+import sg.edu.nus.iss.phoenix.schedule.android.delegate.CopyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.CreateScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.DeleteScheduleDelegate;
+import sg.edu.nus.iss.phoenix.schedule.android.delegate.ModifyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
 public class MaintainScheduleController {
 
     CreateScheduleDelegate createDelegate;
+    ModifyScheduleDelegate modifyDelegate;
+    CopyScheduleDelegate copyDelegate;
     DeleteScheduleDelegate delDelegate;
 
     public void startUseCase(){
@@ -20,6 +24,16 @@ public class MaintainScheduleController {
     public void createSchedule(){
         createDelegate = new CreateScheduleDelegate(this);
         //createDelegate.execute();
+    }
+
+    public void modifySchedule(){
+        modifyDelegate = new ModifyScheduleDelegate(this);
+        //modifyDelegate.execute();
+    }
+
+    public void copySchedule(){
+        copyDelegate = new CopyScheduleDelegate(this);
+        //copyDelegate.execute();
     }
 
     public void deleteSchedule(){

@@ -40,6 +40,53 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView_timeslot_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TimeSlot: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView_timeslot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/button_timeslot"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.1"
+                    app:srcCompat="@drawable/edit" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/CardView_NewTime"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp">
 
@@ -47,25 +94,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="4dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView_timeslot_title"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TimeSlot: "
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView_timeslot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/textView_timeslot_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TimeSlot (Copy To): "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/textView_Newtimeslot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/button_Newtimeslot"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.1"
+                    app:srcCompat="@drawable/edit" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -105,13 +166,12 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <Button
+                <ImageView
                     android:id="@+id/button_presenter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="0.1"
-                    android:text="Select"
-                    android:textColor="@color/colorPrimaryDark" />
+                    app:srcCompat="@drawable/edit" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -151,13 +211,12 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <Button
+                <ImageView
                     android:id="@+id/button_producer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="0.1"
-                    android:text="Select"
-                    android:textColor="@color/colorPrimaryDark" />
+                    app:srcCompat="@drawable/edit" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -196,13 +255,12 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <Button
+                <ImageView
                     android:id="@+id/button_radioProgram"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_weight="0.1"
-                    android:text="Select"
-                    android:textColor="@color/colorPrimaryDark" />
+                    app:srcCompat="@drawable/edit" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
