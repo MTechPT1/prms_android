@@ -51,9 +51,9 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
 
         //Testing Dummy schedules
         RadioProgram rp = new RadioProgram("radioProgramName", "radioProgramDescription", "radioProgramDuration");
-        Presenter presenter = new Presenter("name","address","employmentDate");
-        Producer producer = new Producer("name","address","employmentDate");
-        ProgramSlot ps = new ProgramSlot(rp, presenter, producer, 10, "WK", "1200");
+        Presenter presenter = new Presenter(12,"name","address","employmentDate");
+        Producer producer = new Producer(234,"name","address","employmentDate");
+        ProgramSlot ps = new ProgramSlot(123, rp, presenter, producer, 10, "WK", "1200",456);
         ArrayList<ProgramSlot> pslist = new ArrayList<ProgramSlot>();
         pslist.add(ps);
         pslist.add(ps);
@@ -182,7 +182,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
     }
 
     private void retrieveScheduleProgram(){
-        retrieveScheduleDel = new RetrieveScheduleDelegate();
+        retrieveScheduleDel = new RetrieveScheduleDelegate(ControlFactory.getReviewSelectScheduleController());
         retrieveScheduleDel.execute();
     }
 }
