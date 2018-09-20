@@ -96,7 +96,7 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
 
 
     private void editSchedule(int p){
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.EDIT);
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.MODIFY);
     }
 
     private void copySchedule(int p){

@@ -40,7 +40,8 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
     private FloatingActionButton floatingActionButton2;
 
     //Variable for Calender
-    private SimpleDateFormat selecteddate;
+    private SimpleDateFormat sdf;
+    private String selecteddate;
     private Calendar calendar = Calendar.getInstance();
 
     //Variable for delegate
@@ -122,8 +123,8 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
             String myFormat = "yyyy-MM-dd"; //In which you need put here
-            selecteddate = new SimpleDateFormat(myFormat, Locale.UK);
-
+            sdf = new SimpleDateFormat(myFormat, Locale.UK);
+            selecteddate = sdf.format(calendar.getTime());
             retrieveScheduleProgram();
         }
 
@@ -181,12 +182,12 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         showCalendar();
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ReviewSelectScheduleProgramScreen.this.finish();
-                    }
                 });
+//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        ReviewSelectScheduleProgramScreen.this.finish();
+//                    }
+//                });
         builder.create();
         builder.show();
     }
