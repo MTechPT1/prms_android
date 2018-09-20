@@ -33,13 +33,21 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
 
+    //Variable for UI
     private ScheduleProgramAdapter mSPAdapter;
     private ListView mListView;
     private ScheduleProgram selectedSP = null;
     private FloatingActionButton floatingActionButton2;
+
+    //Variable for Calender
     private SimpleDateFormat selecteddate;
     private Calendar calendar = Calendar.getInstance();
+
+    //Variable for delegate
     private RetrieveScheduleDelegate retrieveScheduleDel;
+
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +55,6 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
 
         setupFloatingButton();
         setupScheduleProgramAdapter();
-
 
 
         //Testing Dummy schedules
@@ -66,6 +73,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         sclist.add(schedulePrograms);
         sclist.add(schedulePrograms);
         DisplayScheduleProgram(sclist);
+
     }
 
     @Override
@@ -131,6 +139,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         for (int i = 0; i < schedulePrograms.size(); i++) {
             mSPAdapter.add(schedulePrograms.get(i));
         }
+        mSPAdapter.notifyDataSetChanged();
     }
 
     private void setupFloatingButton() {

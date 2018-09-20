@@ -19,7 +19,7 @@ public class ScheduleScreen extends AppCompatActivity{
     private Button button_presenter;
     private Button button_producer;
     private Button button_radioProgram;
-    private Button button_schedule_delete;
+    private Button button_schedule_procced;
     private TextView textView_timeslot;
     private TextView textView_presenter;
     private TextView textView_producer;
@@ -57,14 +57,14 @@ public class ScheduleScreen extends AppCompatActivity{
         button_presenter = (Button) findViewById(R.id.button_presenter);
         button_producer = (Button) findViewById(R.id.button_producer);
         button_radioProgram = (Button) findViewById(R.id.button_radioProgram);
-        button_schedule_delete =(Button) findViewById(R.id.button_schedule_delete);
+        button_schedule_procced =(Button) findViewById(R.id.button_schedule_procced);
         textView_timeslot = (TextView) findViewById(R.id.textView_timeslot);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
 
         button_presenter.setVisibility(View.VISIBLE);
         button_producer.setVisibility(View.VISIBLE);
         button_radioProgram.setVisibility(View.VISIBLE);
-        button_schedule_delete.setVisibility(View.INVISIBLE);
+        button_schedule_procced.setVisibility(View.VISIBLE);
 
         button_presenter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +89,12 @@ public class ScheduleScreen extends AppCompatActivity{
 
         switch(scheduleMode){
             case Constant.CREATE:
+                button_schedule_procced.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowAlertDialog("Are you sure you want to create this schedule?");
+                    }
+                });
                 break;
 
             case Constant.EDIT:
@@ -102,8 +108,7 @@ public class ScheduleScreen extends AppCompatActivity{
                 button_producer.setVisibility(View.INVISIBLE);
                 button_radioProgram.setVisibility(View.INVISIBLE);
 
-                button_schedule_delete.setVisibility(View.VISIBLE);
-                button_schedule_delete.setOnClickListener(new View.OnClickListener() {
+                button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ShowAlertDialog("Are you sure you want to delete this schedule?");
@@ -138,7 +143,22 @@ public class ScheduleScreen extends AppCompatActivity{
         builder.setMessage(string)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ControlFactory.getMaintainScheduleController().deleteSchedule();
+                        switch (scheduleMode){
+                            case Constant.CREATE:
+                                ControlFactory.getMaintainScheduleController().createSchedule();
+                                break;
+
+                            case Constant.EDIT:
+                                break;
+
+                            case Constant.COPY:
+                                break;
+
+                            case Constant.DELETE:
+                                ControlFactory.getMaintainScheduleController().deleteSchedule();
+                                break;
+                        }
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
