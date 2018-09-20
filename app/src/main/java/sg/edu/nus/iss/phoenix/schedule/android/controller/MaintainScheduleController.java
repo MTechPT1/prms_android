@@ -22,5 +22,23 @@ public class MaintainScheduleController {
          MainController.displayScreen(intent);
      }
 
+    public void scheduleModified(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUseCase();
+    }
 
+    public void scheduleCopied(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUseCase();
+    }
+
+    public void scheduleCreated(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUseCase();
+    }
+
+    public void scheduleDeleted(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUseCase();
+    }
 }
