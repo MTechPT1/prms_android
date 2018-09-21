@@ -16,4 +16,8 @@ public class Constant {
     public static final int COPY = 2;
     public static final int DELETE = 3;
     public static final String SCHEDULEMODE = "SCHEDULEMODE";
+    public static final String PRORGRAMSLOT = "PRORGRAMSLOT";
+    public static final String PRESENTERPRODUCER = "PRESENTERPRODUCER";
+    public static final String PRESENTERPRODUCERUSER = "PRESENTERPRODUCERUSER";
+    public static final String PRESENTERPRODUCERLISTENNER = "PRESENTERPRODUCERLISTENNER";
 }

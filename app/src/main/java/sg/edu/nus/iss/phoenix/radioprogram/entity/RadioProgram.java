@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.phoenix.radioprogram.entity;
 
-public class RadioProgram {
+import java.io.Serializable;
+
+public class RadioProgram implements Serializable {
 
     private String radioProgramName;
     private String radioProgramDescription;
