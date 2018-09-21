@@ -9,7 +9,9 @@ import java.net.URL;
 
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.CreateUserDelegate;
+import sg.edu.nus.iss.phoenix.createuser.android.delegate.DeleteUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.MaintainUserDelegate;
+import sg.edu.nus.iss.phoenix.createuser.android.delegate.ModifyUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.MaintainUserScreen;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.UserListScreen;
@@ -48,17 +50,18 @@ public class MaintainUserController {
     }
 
     public void processCreateUser(User user){
-        new CreateUserDelegate().execute(user);
+        new CreateUserDelegate(this).execute(user);
 
 
     }
 
     public void processDeleteUser(User user){
+        new DeleteUserDelegate(this).execute(user);
 
     }
 
     public void processModifyUser(User user){
-
+        new ModifyUserDelegate(this).execute(user);
     }
 
     static public URL buildUrl(String endpoint, User user){
@@ -80,5 +83,10 @@ public class MaintainUserController {
         }
 
         return url;
+    }
+
+    public void userCreated(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUsecase();
     }
 }
