@@ -58,7 +58,7 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        ControlFactory.getReviewSelectPresenterProducerController().retrieveAllUsers();
+        //ControlFactory.getReviewSelectPresenterProducerController().retrieveAllUsers();
     }
 
     private void setupView() {

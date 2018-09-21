@@ -28,6 +28,11 @@ public class CreateScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         this.maintainScheduleController = maintainScheduleController;
     }
 
+    /**
+     * Called asynchronously to invoke the web service to create the program slot
+     * @param params
+     * @return
+     */
     @Override
     protected Boolean doInBackground(ProgramSlot... params) {
 
@@ -86,6 +91,10 @@ public class CreateScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         return new Boolean(success);
     }
 
+    /**
+     * Called asynchronously post the call is returned from backend
+     * @param result
+     */
     @Override
     protected void onPostExecute(Boolean result) {
         maintainScheduleController.scheduleCreated(result.booleanValue());

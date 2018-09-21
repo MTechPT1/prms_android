@@ -25,6 +25,11 @@ public class DeleteScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         this.maintainScheduleController = maintainScheduleController;
     }
 
+    /**
+     * Called asynchronously to invoke the web service to delete the program slot
+     * @param params
+     * @return
+     */
     @Override
     protected Boolean doInBackground(ProgramSlot... params) {
         // Encode the name of radio program in case of the presence of special characters.
@@ -67,6 +72,10 @@ public class DeleteScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         return new Boolean(success);
     }
 
+    /**
+     * Called asynchronously post the call is returned from backend
+     * @param result
+     */
     @Override
     protected void onPostExecute(Boolean result) {
         maintainScheduleController.scheduleDeleted(result.booleanValue());

@@ -15,6 +15,10 @@ public class ProgramSlot {
     private Producer producer;
     private RadioProgram radioProgram;
 
+    public ProgramSlot(){
+
+    }
+
     public ProgramSlot(int id, RadioProgram radioProgram, Presenter presenter, Producer producer, int duration, String assignedBy, String startTime,int weekId) {
         this.id = id;
         this.radioProgram = radioProgram;
