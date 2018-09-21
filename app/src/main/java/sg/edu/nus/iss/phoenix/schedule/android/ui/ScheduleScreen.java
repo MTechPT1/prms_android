@@ -100,6 +100,8 @@ public class ScheduleScreen extends AppCompatActivity {
         button_radioProgram.setVisibility(View.VISIBLE);
         button_schedule_procced.setVisibility(View.VISIBLE);
 
+
+
         button_timeslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +113,14 @@ public class ScheduleScreen extends AppCompatActivity {
         button_presenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectPresenterProducerController().startUseCase(1, "PresenterName");
+                //ControlFactory.getReviewSelectPresenterProducerController().startUseCase(1, "PresenterName");
             }
         });
 
         button_producer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectPresenterProducerController().startUseCase(2, "ProducerName");
+                //ControlFactory.getReviewSelectPresenterProducerController().startUseCase(2, "ProducerName");
             }
         });
 
@@ -212,25 +214,27 @@ public class ScheduleScreen extends AppCompatActivity {
     }
 
     private void ShowAlertDialog(String string) {
+        //TODO populate the proper program slot that needs to be created/modified/deleted/copied
+
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScheduleScreen.this);
         builder.setMessage(string)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         switch (scheduleMode) {
                             case Constant.CREATE:
-                                ControlFactory.getMaintainScheduleController().createSchedule();
+                                ControlFactory.getMaintainScheduleController().createSchedule(selectedPS);
                                 break;
 
                             case Constant.MODIFY:
-                                ControlFactory.getMaintainScheduleController().modifySchedule();
+                                ControlFactory.getMaintainScheduleController().modifySchedule(selectedPS);
                                 break;
 
                             case Constant.COPY:
-                                ControlFactory.getMaintainScheduleController().copySchedule();
+                                ControlFactory.getMaintainScheduleController().copySchedule(selectedPS);
                                 break;
 
                             case Constant.DELETE:
-                                ControlFactory.getMaintainScheduleController().deleteSchedule();
+                                ControlFactory.getMaintainScheduleController().deleteSchedule(selectedPS);
                                 break;
                         }
                     }

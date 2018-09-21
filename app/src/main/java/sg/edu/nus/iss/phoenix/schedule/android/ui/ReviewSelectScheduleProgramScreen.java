@@ -68,12 +68,8 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         pslist.add(ps);
         pslist.add(ps);
         ScheduleProgram schedulePrograms = new ScheduleProgram(pslist);
-        ArrayList<ScheduleProgram> sclist = new ArrayList<ScheduleProgram>();
-        sclist.add(schedulePrograms);
-        sclist.add(schedulePrograms);
-        sclist.add(schedulePrograms);
-        sclist.add(schedulePrograms);
-        DisplayScheduleProgram(sclist);
+
+        displayScheduleProgram(schedulePrograms);
 
     }
 
@@ -135,11 +131,11 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         this.finish();
     }
 
-    public void DisplayScheduleProgram(List<ScheduleProgram> schedulePrograms) {
+    public void displayScheduleProgram(ScheduleProgram schedulePrograms) {
         mSPAdapter.clear();
-        for (int i = 0; i < schedulePrograms.size(); i++) {
+       /* for (int i = 0; i < schedulePrograms.size(); i++) {
             mSPAdapter.add(schedulePrograms.get(i));
-        }
+        }*/
         mSPAdapter.notifyDataSetChanged();
     }
 

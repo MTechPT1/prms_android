@@ -1,26 +1,24 @@
 package sg.edu.nus.iss.phoenix.schedule.android.entity;
 
-import android.support.annotation.RestrictTo;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleProgram {
 
-    ArrayList<ProgramSlot> programSlots;
+    List<ProgramSlot> programSlots;
 
+    public ScheduleProgram() {
+        
+    }
 
-    public ScheduleProgram(ArrayList<ProgramSlot> programSlots) {
+    public ScheduleProgram(List<ProgramSlot> programSlots) {
         this.programSlots = programSlots;
     }
 
-    public void RetrieveScheduleProgram() {
-
+    public List<ProgramSlot> getProgramSlots() {
+        return programSlots;
     }
 
-    public String getAttribute(int index) {
-        //TODO - Correct the logic here
-        //return programSlots.get(index-1).getAttribute();
-        return null;
+    public void setProgramSlots(List<ProgramSlot> programSlots) {
+        this.programSlots = programSlots;
     }
-
 }

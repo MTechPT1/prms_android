@@ -29,6 +29,11 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
         this.maintainScheduleController = maintainScheduleController;
     }
 
+    /**
+     * Called asynchronously to invoke the web service to copy the program slot
+     * @param params ProgramSlot
+     * @return Boolean
+     */
     @Override
     protected Boolean doInBackground(ProgramSlot... params) {
 
@@ -87,6 +92,10 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
         return new Boolean(success);
     }
 
+    /**
+     * Called asynchronously post the call is returned from backend
+     * @param result
+     */
     @Override
     protected void onPostExecute(Boolean result) {
         maintainScheduleController.scheduleCopied(result.booleanValue());
