@@ -16,19 +16,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
-import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
-import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
+import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
-public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
+public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
     private Context context;
-    ArrayList<ScheduleProgram> scheduleProgram;
+    ArrayList<ProgramSlot> programSlots;
+    ScheduleProgramAdapter.ModifyScheduleListener ms;
 
-    public ScheduleProgramAdapter(@NonNull Context context, ArrayList<ScheduleProgram> ScheduleProgram) {
-        super(context, 0, ScheduleProgram);
+
+    public ScheduleProgramAdapter(@NonNull Context context, ArrayList<ProgramSlot> programSlot, ScheduleProgramAdapter.ModifyScheduleListener ms) {
+        super(context, 0, programSlot);
         this.context = context;
-        this.scheduleProgram = ScheduleProgram;
+        this.programSlots = programSlot;
+        this.ms = ms;
     }
 
     @NonNull
@@ -40,14 +41,10 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
                     R.layout.item_scheduled_program_layout, parent, false);
         }
 
-        ScheduleProgram currentSP = getItem(position);
+        TextView textView_schedule_program = (TextView) listItemView.findViewById(R.id.textView_schedule_program);
+        textView_schedule_program.setText(getItem(position).getRadioProgram().getRadioProgramName());
 
-        TextView textView_schedule_program = (TextView)listItemView.findViewById(R.id.textView_schedule_program);
-        textView_schedule_program.setText("TimeSlot"+position);
-
-
-
-        addButtonAction(listItemView,position);
+        addButtonAction(listItemView, position);
 
         return listItemView;
     }
@@ -58,15 +55,15 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
         optionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int p = (int)v.getTag();
+                int p = (int) v.getTag();
                 addListOfOptionButtons(convertview, p);
             }
         });
     }
 
-    private void addListOfOptionButtons(View v, final int position){
+    private void addListOfOptionButtons(View v, final int position) {
         PopupMenu popup = new PopupMenu(context, v.findViewWithTag(position), Gravity.CENTER);
-        popup.getMenu().add(Menu.NONE, 1, 1, "EDIT");
+        popup.getMenu().add(Menu.NONE, 1, 1, "MODIFY");
         popup.getMenu().add(Menu.NONE, 2, 2, "COPY");
         popup.getMenu().add(Menu.NONE, 3, 3, "DELETE");
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -75,16 +72,16 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
             public boolean onMenuItemClick(MenuItem menuItem) {
 
                 switch (menuItem.getItemId()) {
-                    case 1:{ // edit
-                        editSchedule(position);
+                    case 1: { // edit
+                        ms.editSchedule(position);
                     }
                     break;
-                    case 2:{ // copy
-                        copySchedule(position);
+                    case 2: { // copy
+                        ms.copySchedule(position);
                     }
                     break;
-                    case 3:{ // delete
-                        deleteSchedule(position);
+                    case 3: { // delete
+                        ms.deleteSchedule(position);
                     }
                     break;
                 }
@@ -94,16 +91,13 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ScheduleProgram> {
         popup.show();
     }
 
+    public interface ModifyScheduleListener {
+        void editSchedule(int position);
 
-    private void editSchedule(int p){
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.MODIFY);
+        void copySchedule(int position);
+
+        void deleteSchedule(int position);
     }
 
-    private void copySchedule(int p){
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.COPY);
-    }
 
-    private void deleteSchedule(int p){
-        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.DELETE);
-    }
 }

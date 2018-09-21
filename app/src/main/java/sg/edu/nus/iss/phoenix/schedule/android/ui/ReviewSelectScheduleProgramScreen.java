@@ -9,44 +9,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
+import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.RetrieveScheduleDelegate;
-import sg.edu.nus.iss.phoenix.schedule.android.entity.Presenter;
-import sg.edu.nus.iss.phoenix.schedule.android.entity.Producer;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 
-public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
+public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener{
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
 
     //Variable for UI
     private ScheduleProgramAdapter mSPAdapter;
     private ListView mListView;
-    private ScheduleProgram selectedSP = null;
     private FloatingActionButton floatingActionButton2;
 
     //Variable for Calender
     private SimpleDateFormat sdf;
     private String selecteddate;
     private Calendar calendar = Calendar.getInstance();
+    private int weekId = 1;
 
     //Variable for delegate
     private RetrieveScheduleDelegate retrieveScheduleDel;
 
+    //Variable for logic
+    private ScheduleProgram schedulePrograms;
 
 
 
@@ -56,21 +55,6 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
 
         setupFloatingButton();
         setupScheduleProgramAdapter();
-
-
-        //Testing Dummy schedules
-        RadioProgram rp = new RadioProgram("radioProgramName", "radioProgramDescription", "radioProgramDuration");
-        Presenter presenter = new Presenter(12,"name","address","employmentDate");
-        Producer producer = new Producer(234,"name","address","employmentDate");
-        ProgramSlot ps = new ProgramSlot(123, rp, presenter, producer, 10, "WK", "1200",456);
-        ArrayList<ProgramSlot> pslist = new ArrayList<ProgramSlot>();
-        pslist.add(ps);
-        pslist.add(ps);
-        pslist.add(ps);
-        ScheduleProgram schedulePrograms = new ScheduleProgram(pslist);
-
-        displayScheduleProgram(schedulePrograms);
-
     }
 
     @Override
@@ -98,8 +82,39 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
             case R.id.action_view_schedule:
                 showCalendar();
         }
-
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    private void test(){
+
+        //Testing Dummy schedules
+        RadioProgram rp1 = new RadioProgram("Symphony92.4", "Symphony", "30");
+        RadioProgram rp2 = new RadioProgram("Yes93.3", "Best", "30");
+        User presenter = new User();
+        presenter.setProducer(true);
+        presenter.setPresenter(true);
+        presenter.setUserId("1");
+        presenter.setUserName("WK");
+        presenter.setJoinDate("1 Jan");
+        User producer = new User();
+        producer.setProducer(true);
+        producer.setPresenter(true);
+        producer.setUserId("1");
+        producer.setUserName("WK");
+        producer.setJoinDate("1 Jan");
+        ProgramSlot ps = new ProgramSlot(1, rp1, presenter, producer, 10, "WK", "1200", 1);
+        ProgramSlot ps2 = new ProgramSlot(2, rp2, presenter, producer, 20, "WK2", "1200", 2);
+        ArrayList<ProgramSlot> pslist = new ArrayList<>();
+        pslist.add(ps);
+        pslist.add(ps2);
+        ScheduleProgram schedulePrograms = new ScheduleProgram(pslist);
+
+        displayScheduleProgram(schedulePrograms);
     }
 
     private void showCalendar() {
@@ -118,24 +133,25 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
+            weekId = calendar.get(Calendar.WEEK_OF_YEAR);
+
             String myFormat = "yyyy-MM-dd"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
             selecteddate = sdf.format(calendar.getTime());
             retrieveScheduleProgram();
+
+            //WK: Dummy Schedule
+            test();
         }
 
     };
 
-    @Override
-    public void onBackPressed() {
-        this.finish();
-    }
-
     public void displayScheduleProgram(ScheduleProgram schedulePrograms) {
+        this.schedulePrograms = schedulePrograms;
         mSPAdapter.clear();
-       /* for (int i = 0; i < schedulePrograms.size(); i++) {
-            mSPAdapter.add(schedulePrograms.get(i));
-        }*/
+        for (int i = 0; i < schedulePrograms.getProgramSlots().size(); i++) {
+            mSPAdapter.add(schedulePrograms.getProgramSlots().get(i));
+        }
         mSPAdapter.notifyDataSetChanged();
     }
 
@@ -150,25 +166,12 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
     }
 
     private void setupScheduleProgramAdapter() {
-        ArrayList<ScheduleProgram> schedulePrograms = new ArrayList<ScheduleProgram>();
-        mSPAdapter = new ScheduleProgramAdapter(this, schedulePrograms);
+        ArrayList<ProgramSlot> PS = new ArrayList<>();
+        mSPAdapter = new ScheduleProgramAdapter(this, PS, this);
 
         mListView = (ListView) findViewById(R.id.maintain_schedule_list);
         mListView.setAdapter(mSPAdapter);
 
-        // Setup the item selection listener
-        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                ScheduleProgram sp = (ScheduleProgram) adapterView.getItemAtPosition(position);
-                selectedSP = sp;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // your stuff
-            }
-        });
     }
 
     private void ShowAlertDialog(String string) {
@@ -188,9 +191,23 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity {
         builder.show();
     }
 
-    private void retrieveScheduleProgram(){
-        retrieveScheduleDel = new RetrieveScheduleDelegate(ControlFactory.getReviewSelectScheduleController());
-        retrieveScheduleDel.execute();
+    private void retrieveScheduleProgram() {
+        ControlFactory.getReviewSelectScheduleController().retrieveScheduleProgram(ReviewSelectScheduleProgramScreen.this, String.valueOf(weekId));
+    }
+
+    @Override
+    public void editSchedule(int position) {
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.MODIFY, schedulePrograms.getProgramSlots().get(position));
+    }
+
+    @Override
+    public void copySchedule(int position) {
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.COPY, schedulePrograms.getProgramSlots().get(position));
+    }
+
+    @Override
+    public void deleteSchedule(int position) {
+        ControlFactory.getReviewSelectScheduleController().setMaintainSchedule(Constant.DELETE, schedulePrograms.getProgramSlots().get(position));
     }
 }
 

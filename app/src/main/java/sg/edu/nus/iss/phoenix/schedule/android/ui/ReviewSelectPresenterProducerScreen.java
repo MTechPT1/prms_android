@@ -32,33 +32,40 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        userName = intent.getStringExtra(Constant.USERNAME);
-        userRole = intent.getIntExtra(Constant.USERROLE, Constant.PRESENTER);
+        userRole = intent.getIntExtra(Constant.PRESENTERPRODUCER, Constant.PRESENTER);
         setContentView(R.layout.acitivity_presenter_producer_screen);
 
         setupView();
 
-        //Dummy for testing
-        users = new ArrayList<User>();
-        User wk = new User();
-        wk.setUserName("WK");
-        wk.setPresenter(true);
-        wk.setProducer(true);
-        User wk2 = new User();
-        wk2.setUserName("WK2");
-        wk2.setPresenter(true);
-        wk2.setProducer(false);
-        users.add(wk);
-        users.add(wk2);
-        users.add(wk);
-        showUser(users);
+        test();
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        //ControlFactory.getReviewSelectPresenterProducerController().retrieveAllUsers();
+        ControlFactory.getMaintainUserController().onDisplayPresenterProducerList(ReviewSelectPresenterProducerScreen.this);
+    }
+
+    private void test(){
+        //Dummy for testing
+        users = new ArrayList<User>();
+        User wk = new User();
+        wk.setUserName("Alex");
+        wk.setPresenter(true);
+        wk.setProducer(true);
+        User wk2 = new User();
+        wk2.setUserName("William");
+        wk2.setPresenter(true);
+        wk2.setProducer(false);
+        User wk3 = new User();
+        wk3.setUserName("Robert");
+        wk3.setPresenter(true);
+        wk3.setProducer(true);
+        users.add(wk);
+        users.add(wk2);
+        users.add(wk3);
+        showUser(users);
     }
 
     private void setupView() {
@@ -79,7 +86,7 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         button_presenter_producer_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ScheduleScreen.selectedUser(selectedUser, userRole);
+                ControlFactory.getMaintainUserController().selectedUser(userRole, selectedUser);
                 finish();
             }
         });
@@ -133,8 +140,5 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         });
     }
 
-    public interface selectedPresentProducerListener {
-        void selectedPresenterProducerCallback(User u);
-    }
 }
 

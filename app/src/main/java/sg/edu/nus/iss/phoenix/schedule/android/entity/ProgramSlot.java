@@ -1,8 +1,11 @@
 package sg.edu.nus.iss.phoenix.schedule.android.entity;
 
+import java.io.Serializable;
+
+import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 
-public class ProgramSlot {
+public class ProgramSlot implements Serializable {
 
     private int id;
     private int weekId;
@@ -11,15 +14,15 @@ public class ProgramSlot {
     private String assignedBy;
     private String startTime;
 
-    private Presenter presenter;
-    private Producer producer;
+    private User presenter;
+    private User producer;
     private RadioProgram radioProgram;
 
     public ProgramSlot(){
 
     }
 
-    public ProgramSlot(int id, RadioProgram radioProgram, Presenter presenter, Producer producer, int duration, String assignedBy, String startTime,int weekId) {
+    public ProgramSlot(int id, RadioProgram radioProgram, User presenter, User producer, int duration, String assignedBy, String startTime, int weekId) {
         this.id = id;
         this.radioProgram = radioProgram;
         this.presenter = presenter;
@@ -62,19 +65,19 @@ public class ProgramSlot {
         this.duration = duration;
     }
 
-    public Presenter getPresenter() {
+    public User getPresenter() {
         return presenter;
     }
 
-    public void setPresenter(Presenter presenter) {
+    public void setPresenter(User presenter) {
         this.presenter = presenter;
     }
 
-    public Producer getProducer() {
+    public User getProducer() {
         return producer;
     }
 
-    public void setProducer(Producer producer) {
+    public void setProducer(User producer) {
         this.producer = producer;
     }
 

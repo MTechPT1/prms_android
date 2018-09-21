@@ -23,6 +23,7 @@ import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
+import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
 public class ScheduleScreen extends AppCompatActivity {
@@ -50,12 +51,10 @@ public class ScheduleScreen extends AppCompatActivity {
     private String selectedTime;
     private String selecteddate_copy_to;
     private String selectedTime_copy_to;
-    private static User selectedUser;
-    private static int selectedrole;
     private static int scheduleMode;
-    //private Presenter selectedPresenter;
-    //private Producer selectedProducer;
-    private static ProgramSlot selectedPS;
+    private User selectedPresenter;
+    private User selectedProducer;
+    private static ProgramSlot programSlot;
     private boolean isNewDateForCopy = false;
 
 
@@ -64,7 +63,11 @@ public class ScheduleScreen extends AppCompatActivity {
         setContentView(R.layout.acitivity_schedule_screen);
 
         Intent intent = getIntent();
-        scheduleMode = intent.getIntExtra(Constant.SCHEDULEMODE, 10);
+        scheduleMode = intent.getIntExtra(Constant.SCHEDULEMODE, 0);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            programSlot = (ProgramSlot) getIntent().getSerializableExtra(Constant.PRORGRAMSLOT); //Obtaining data
+        }
 
         setupView();
         updateUI();
@@ -101,7 +104,6 @@ public class ScheduleScreen extends AppCompatActivity {
         button_schedule_procced.setVisibility(View.VISIBLE);
 
 
-
         button_timeslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,14 +115,14 @@ public class ScheduleScreen extends AppCompatActivity {
         button_presenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ControlFactory.getReviewSelectPresenterProducerController().startUseCase(1, "PresenterName");
+                ControlFactory.getMaintainUserController().getPresenterProducerScreen(Constant.PRESENTER, ScheduleScreen.this);
             }
         });
 
         button_producer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ControlFactory.getReviewSelectPresenterProducerController().startUseCase(2, "ProducerName");
+                ControlFactory.getMaintainUserController().getPresenterProducerScreen(Constant.PRODUCER, ScheduleScreen.this);
             }
         });
 
@@ -192,25 +194,37 @@ public class ScheduleScreen extends AppCompatActivity {
 
     }
 
-    public static void selectedUser(User u, int role) {
-        selectedUser = u;
-        selectedrole = role;
-    }
 
-    public static void selectedProgramSlot(ProgramSlot ps) {
-        selectedPS = ps;
+    public void selectedRadioProgram(RadioProgram rd) {
+        if (programSlot == null) {
+            programSlot = new ProgramSlot();
+        }
+        this.programSlot.setRadioProgram(rd);
+
+        updateUI();
     }
 
     private void updateUI() {
-        textView_timeslot.setText(selecteddate + " " + selectedTime);
+        textView_timeslot = (TextView) findViewById(R.id.textView_timeslot);
+        textView_presenter = (TextView) findViewById(R.id.textView_presenter);
+        textView_producer = (TextView) findViewById(R.id.textView_producer);
+        textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
 
-        if (selectedrole == Constant.PRESENTER) {
-            textView_presenter = (TextView) findViewById(R.id.textView_presenter);
-            textView_presenter.setText(selectedUser.getUserName());
-        } else if (selectedrole == Constant.PRODUCER) {
-            textView_producer = (TextView) findViewById(R.id.textView_producer);
-            textView_producer.setText(selectedUser.getUserName());
+        if (programSlot != null) {
+            if (programSlot.getStartTime() != null) {
+                textView_timeslot.setText(programSlot.getStartTime().toString());
+            }
+            if (programSlot.getPresenter() != null) {
+                textView_presenter.setText(programSlot.getPresenter().getUserName().toString());
+            }
+            if (programSlot.getProducer() != null) {
+                textView_producer.setText(programSlot.getProducer().getUserName().toString());
+            }
+            if (programSlot.getRadioProgram() != null) {
+                textView_radioprogram.setText(programSlot.getRadioProgram().getRadioProgramName().toString());
+            }
         }
+
     }
 
     private void ShowAlertDialog(String string) {
@@ -222,19 +236,19 @@ public class ScheduleScreen extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         switch (scheduleMode) {
                             case Constant.CREATE:
-                                ControlFactory.getMaintainScheduleController().createSchedule(selectedPS);
+                                ControlFactory.getMaintainScheduleController().createSchedule(programSlot);
                                 break;
 
                             case Constant.MODIFY:
-                                ControlFactory.getMaintainScheduleController().modifySchedule(selectedPS);
+                                ControlFactory.getMaintainScheduleController().modifySchedule(programSlot);
                                 break;
 
                             case Constant.COPY:
-                                ControlFactory.getMaintainScheduleController().copySchedule(selectedPS);
+                                ControlFactory.getMaintainScheduleController().copySchedule(programSlot);
                                 break;
 
                             case Constant.DELETE:
-                                ControlFactory.getMaintainScheduleController().deleteSchedule(selectedPS);
+                                ControlFactory.getMaintainScheduleController().deleteSchedule(programSlot);
                                 break;
                         }
                     }
@@ -307,6 +321,7 @@ public class ScheduleScreen extends AppCompatActivity {
                 } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
                     selectedTime = selectedTime + "PM";
                 }
+                programSlot.setStartTime(selecteddate + " " + selectedTime);
             } else {
                 selectedTime_copy_to = sdf.format(calendar.getTime());
                 if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
@@ -317,10 +332,27 @@ public class ScheduleScreen extends AppCompatActivity {
                 textView_timeslotForCopy.setText(selecteddate_copy_to + " " + selectedTime_copy_to);
             }
 
-
             updateUI();
         }
     };
+
+
+    public void selectedPresenterProducer(int role, User selecteduser) {
+        if (programSlot == null) {
+            programSlot = new ProgramSlot();
+        }
+
+        if (role == Constant.PRESENTER) {
+            this.selectedPresenter = selecteduser;
+            this.programSlot.setPresenter(this.selectedPresenter);
+        } else if (role == Constant.PRODUCER) {
+            this.selectedProducer = selecteduser;
+            this.programSlot.setProducer(this.selectedProducer);
+        }
+
+        updateUI();
+    }
+
 
 }
 
