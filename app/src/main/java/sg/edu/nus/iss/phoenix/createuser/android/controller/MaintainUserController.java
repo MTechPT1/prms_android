@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
@@ -54,6 +55,9 @@ public class MaintainUserController {
         new MaintainUserDelegate(this).execute("all");
     }
 
+    public void displayPresenterProducerListScreen(List<User> userList) {
+       //TODO Display screen
+    }
     public void setMaintainUser(int actionType) {
         this.actionType = actionType;
         Intent intent = new Intent(MainController.getApp(), MaintainUserScreen.class);
