@@ -55,7 +55,7 @@ public class ScheduleScreen extends AppCompatActivity {
     private User selectedPresenter;
     private User selectedProducer;
     private static ProgramSlot programSlot;
-    private boolean isNewDateForCopy = false;
+    //private boolean isNewDateForCopy = false;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class ScheduleScreen extends AppCompatActivity {
         button_timeslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isNewDateForCopy = false;
+                //isNewDateForCopy = false;
                 selectNewTimeSlot();
             }
         });
@@ -138,7 +138,9 @@ public class ScheduleScreen extends AppCompatActivity {
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShowAlertDialog("Are you sure you want to create this schedule?");
+                        if (validation()) {
+                            ShowAlertDialog("Are you sure you want to create this schedule?");
+                        }
                     }
                 });
                 break;
@@ -147,32 +149,36 @@ public class ScheduleScreen extends AppCompatActivity {
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShowAlertDialog("Are you sure you want to make these change(s)?");
+                        if (validation()) {
+                            ShowAlertDialog("Are you sure you want to make these change(s)?");
+                        }
                     }
                 });
                 break;
 
             case Constant.COPY:
-                isNewDateForCopy = true;
-                cardView_NewTime.setVisibility(View.VISIBLE);
-                button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
-                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectNewTimeSlot();
-                    }
-                });
-                ImageView button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
-                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectNewTimeSlot();
-                    }
-                });
+//                isNewDateForCopy = true;
+//                cardView_NewTime.setVisibility(View.VISIBLE);
+//                button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
+//                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        selectNewTimeSlot();
+//                    }
+//                });
+//                ImageView button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
+//                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        selectNewTimeSlot();
+//                    }
+//                });
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShowAlertDialog("Are you sure you want to copy this schedule?");
+                        if (validation()) {
+                            ShowAlertDialog("Are you sure you want to copy this schedule?");
+                        }
                     }
                 });
                 break;
@@ -186,7 +192,9 @@ public class ScheduleScreen extends AppCompatActivity {
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ShowAlertDialog("Are you sure you want to delete this schedule?");
+                        if (validation()) {
+                            ShowAlertDialog("Are you sure you want to delete this schedule?");
+                        }
                     }
                 });
                 break;
@@ -200,6 +208,7 @@ public class ScheduleScreen extends AppCompatActivity {
             programSlot = new ProgramSlot();
         }
         this.programSlot.setRadioProgram(rd);
+        textView_radioprogram.setError(null);
 
         updateUI();
     }
@@ -285,11 +294,11 @@ public class ScheduleScreen extends AppCompatActivity {
 
             String myFormat = "yyyy-MM-dd"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
-            if (!isNewDateForCopy) {
-                selecteddate = sdf.format(calendar.getTime());
-            } else {
-                selecteddate_copy_to = sdf.format(calendar.getTime());
-            }
+            //if (!isNewDateForCopy) {
+            selecteddate = sdf.format(calendar.getTime());
+//            } else {
+//                selecteddate_copy_to = sdf.format(calendar.getTime());
+//            }
 
             selecetNewTime();
         }
@@ -314,23 +323,27 @@ public class ScheduleScreen extends AppCompatActivity {
             String myFormat = "hh:mm"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
-            if (!isNewDateForCopy) {
-                selectedTime = sdf.format(calendar.getTime());
-                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                    selectedTime = selectedTime + "AM";
-                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                    selectedTime = selectedTime + "PM";
-                }
-                programSlot.setStartTime(selecteddate + " " + selectedTime);
-            } else {
-                selectedTime_copy_to = sdf.format(calendar.getTime());
-                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                    selectedTime_copy_to = selectedTime_copy_to + "AM";
-                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                    selectedTime_copy_to = selectedTime_copy_to + "PM";
-                }
-                textView_timeslotForCopy.setText(selecteddate_copy_to + " " + selectedTime_copy_to);
+//            if (!isNewDateForCopy) {
+            selectedTime = sdf.format(calendar.getTime());
+            if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                selectedTime = selectedTime + "AM";
+            } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                selectedTime = selectedTime + "PM";
             }
+            if (programSlot == null) {
+                programSlot = new ProgramSlot();
+            }
+            programSlot.setStartTime(selecteddate + " " + selectedTime);
+            textView_timeslot.setError(null);
+//            } else {
+//                selectedTime_copy_to = sdf.format(calendar.getTime());
+//                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+//                    selectedTime_copy_to = selectedTime_copy_to + "AM";
+//                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+//                    selectedTime_copy_to = selectedTime_copy_to + "PM";
+//                }
+//                textView_timeslotForCopy.setText(selecteddate_copy_to + " " + selectedTime_copy_to);
+//            }
 
             updateUI();
         }
@@ -345,14 +358,52 @@ public class ScheduleScreen extends AppCompatActivity {
         if (role == Constant.PRESENTER) {
             this.selectedPresenter = selecteduser;
             this.programSlot.setPresenter(this.selectedPresenter);
+            textView_presenter.setError(null);
         } else if (role == Constant.PRODUCER) {
             this.selectedProducer = selecteduser;
             this.programSlot.setProducer(this.selectedProducer);
+            textView_producer.setError(null);
         }
 
         updateUI();
     }
 
+    public boolean validation() {
+        if (textView_timeslot.getText().equals("")) {
+            textView_timeslot.requestFocus();
+            textView_timeslot.setError("No data");
+            return false;
+        }
+        else{
+            textView_timeslot.setError(null);
+        }
+
+        if (textView_presenter.getText().equals("")) {
+            textView_presenter.requestFocus();
+            textView_presenter.setError("No data");
+            return false;
+        }else{
+            textView_presenter.setError(null);
+        }
+
+        if (textView_producer.getText().equals("")) {
+            textView_producer.requestFocus();
+            textView_producer.setError("No data");
+            return false;
+        }else{
+            textView_producer.setError(null);
+        }
+
+        if (textView_radioprogram.getText().equals("")) {
+            textView_radioprogram.requestFocus();
+            textView_radioprogram.setError("No data");
+            return false;
+        }else{
+            textView_radioprogram.setError(null);
+        }
+
+        return true;
+    }
 
 }
 

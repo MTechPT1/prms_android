@@ -41,6 +41,9 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
                     R.layout.item_scheduled_program_layout, parent, false);
         }
 
+        TextView textView_schedule_time = (TextView) listItemView.findViewById(R.id.textView_schedule_time);
+        textView_schedule_time.setText(getItem(position).getStartTime().toString());
+
         TextView textView_schedule_program = (TextView) listItemView.findViewById(R.id.textView_schedule_program);
         textView_schedule_program.setText(getItem(position).getRadioProgram().getRadioProgramName());
 
