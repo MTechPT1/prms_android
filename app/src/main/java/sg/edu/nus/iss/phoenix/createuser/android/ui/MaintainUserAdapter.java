@@ -154,10 +154,8 @@ public class MaintainUserAdapter extends BaseAdapter {
     protected void didSelectCheckbox(int postion){
         if (postion+1 == roles.length + NUM_ITEMS){
             user.setProducer(!user.isProducer());
-            notifyDataSetChanged();
         }else if (postion + 2 == roles.length + NUM_ITEMS){
             user.setPresenter(!user.isPresenter());
-            notifyDataSetChanged();
         }
     }
 
@@ -243,7 +241,7 @@ public class MaintainUserAdapter extends BaseAdapter {
     }
 
     // check role selection.
-    private boolean roleSelected(int position){
+    protected boolean roleSelected(int position){
        return position + 1 == NUM_ITEMS + roles.length ? user.isProducer(): user.isPresenter();
     }
 
@@ -254,7 +252,4 @@ public class MaintainUserAdapter extends BaseAdapter {
             editText = (EditText) convertView.findViewById(id);
         }
     }
-
-
-
 }

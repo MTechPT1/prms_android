@@ -102,5 +102,6 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         adapter.didSelectCheckbox(position);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -45,7 +45,7 @@ public class UserListScreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add){
             // create new user
-            ControlFactory.getMaintainUserController().setMaintainUser(1);
+            ControlFactory.getMaintainUserController().setMaintainUser(0);
             return true;
         }else{
             return false;
