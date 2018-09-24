@@ -6,13 +6,15 @@ import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.CreateUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.DeleteUserDelegate;
-import sg.edu.nus.iss.phoenix.createuser.android.delegate.MaintainUserDelegate;
+import sg.edu.nus.iss.phoenix.createuser.android.delegate.RetrievePresenterProducerDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.ModifyUserDelegate;
+import sg.edu.nus.iss.phoenix.createuser.android.delegate.RetrieveUsersDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.MaintainUserScreen;
 import sg.edu.nus.iss.phoenix.createuser.android.ui.UserListScreen;
@@ -25,6 +27,7 @@ public class MaintainUserController {
 
     private UserListScreen userListScreen;
     private MaintainUserScreen maintainUserScreen;
+
     private ScheduleScreen scheduleScreen;
     private ReviewSelectPresenterProducerScreen reviewSelectPresenterProducerScreen;
     static private String PRMS_BASE_URL = "https://localhost";
@@ -46,12 +49,20 @@ public class MaintainUserController {
 
     public void onDisplayUserList(UserListScreen userListScreen) {
         this.userListScreen = userListScreen;
-        new MaintainUserDelegate(this).execute("all");
+        new RetrieveUsersDelegate(this).execute("ALL");
     }
 
     public void onDisplayPresenterProducerList(ReviewSelectPresenterProducerScreen reviewSelectPresenterProducerScreen) {
         this.reviewSelectPresenterProducerScreen = reviewSelectPresenterProducerScreen;
-        new MaintainUserDelegate(this).execute("all");
+        new RetrievePresenterProducerDelegate(this).execute("ALL");
+    }
+
+    public void DisplayUserListScreen(ArrayList<User> userList) {
+        this.userListScreen.displayAllUsers(userList);
+    }
+
+    public void DisplayPresenterProducerScreen(ArrayList<User> userList) {
+        this.reviewSelectPresenterProducerScreen.AllUsersRetrieved(userList);
     }
 
     public void setMaintainUser(int actionType) {

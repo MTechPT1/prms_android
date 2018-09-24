@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
+import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
 public class MaintainUserScreen extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -28,10 +29,13 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     private MaintainUserAdapter adapter;
     private User user = new User();
     private int  actionType = TYPE_CREATE;
+    private MaintainUserController maintainUserController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        maintainUserController=ControlFactory.getMaintainUserController();
 
         actionType = ControlFactory.getMaintainUserController().getActionType();
 
@@ -72,6 +76,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
             break;
             case TYPE_MODIFY:{
                 modifyUser();
+
             }
             break;
             case TYPE_DELETE:{
@@ -82,15 +87,15 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     }
 
     private void createNewUser(){
-
+        maintainUserController.processCreateUser(user);
     }
 
     private void modifyUser(){
-
+        maintainUserController.processModifyUser(user);
     }
 
     private void deleteUser(){
-
+        maintainUserController.processDeleteUser(user);
     }
 
     @Override
