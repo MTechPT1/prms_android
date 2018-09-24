@@ -26,7 +26,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.delegate.RetrieveScheduleDelegate
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 
-public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener{
+public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
 
@@ -40,13 +40,13 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
     private String selecteddate;
     private Calendar calendar = Calendar.getInstance();
     private int weekId = 1;
+    private int year = 2018;
 
     //Variable for delegate
     private RetrieveScheduleDelegate retrieveScheduleDel;
 
     //Variable for logic
     private ScheduleProgram schedulePrograms;
-
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         this.finish();
     }
 
-    private void test(){
+    private void test() {
 
         //Testing Dummy schedules
         RadioProgram rp1 = new RadioProgram("Symphony92.4", "Symphony", "30");
@@ -134,6 +134,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
             weekId = calendar.get(Calendar.WEEK_OF_YEAR);
+            year = calendar.get(Calendar.YEAR);
 
             String myFormat = "yyyy-MM-dd"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
@@ -148,11 +149,15 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
 
     public void displayScheduleProgram(ScheduleProgram schedulePrograms) {
         this.schedulePrograms = schedulePrograms;
-        mSPAdapter.clear();
-        for (int i = 0; i < schedulePrograms.getProgramSlots().size(); i++) {
-            mSPAdapter.add(schedulePrograms.getProgramSlots().get(i));
+        if(this.schedulePrograms != null){
+            if(this.schedulePrograms.getProgramSlots() != null){
+                mSPAdapter.clear();
+                for (int i = 0; i < schedulePrograms.getProgramSlots().size(); i++) {
+                    mSPAdapter.add(schedulePrograms.getProgramSlots().get(i));
+                }
+                mSPAdapter.notifyDataSetChanged();
+            }
         }
-        mSPAdapter.notifyDataSetChanged();
     }
 
     private void setupFloatingButton() {
@@ -192,7 +197,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
     }
 
     private void retrieveScheduleProgram() {
-        ControlFactory.getReviewSelectScheduleController().retrieveScheduleProgram(ReviewSelectScheduleProgramScreen.this, String.valueOf(weekId));
+        ControlFactory.getReviewSelectScheduleController().retrieveScheduleProgram(ReviewSelectScheduleProgramScreen.this, String.valueOf(weekId), String.valueOf(year));
     }
 
     @Override

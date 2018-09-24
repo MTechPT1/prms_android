@@ -47,9 +47,9 @@ public class ReviewSelectScheduleProgramController {
      * @param reviewSelectScheduleProgramScreen
      * @param weekId
      */
-    public void  retrieveScheduleProgram(ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen, String weekId){
+    public void  retrieveScheduleProgram(ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen, String weekId, String year){
         this.reviewSelectScheduleProgramScreen = reviewSelectScheduleProgramScreen;
-        new RetrieveScheduleDelegate(this).execute(weekId);
+        new RetrieveScheduleDelegate(this).execute(weekId, year);
     }
 
     /**
