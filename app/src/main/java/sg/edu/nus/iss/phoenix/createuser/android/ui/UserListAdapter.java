@@ -22,8 +22,16 @@ public class UserListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<User> userList = new ArrayList<User>();
 
-    public UserListAdapter(Context context, ArrayList<User> userList) {
+//    public UserListAdapter(Context context, ArrayList<User> userList) {
+//        this.context = context;
+//        this.userList = userList;
+//    }
+
+    public UserListAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setUserList(ArrayList<User> userList) {
         this.userList = userList;
     }
 
