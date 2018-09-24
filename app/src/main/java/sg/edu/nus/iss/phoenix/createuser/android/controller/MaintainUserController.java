@@ -58,7 +58,7 @@ public class MaintainUserController {
     }
 
     public void DisplayUserListScreen(ArrayList<User> userList) {
-        this.userListScreen.AllUsersRetrieved(userList);
+        this.userListScreen.displayAllUsers(userList);
     }
 
     public void DisplayPresenterProducerScreen(ArrayList<User> userList) {

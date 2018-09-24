@@ -75,7 +75,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
             }
             break;
             case TYPE_MODIFY:{
-                //modifyUser();
+                modifyUser();
 
             }
             break;
@@ -91,7 +91,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     }
 
     private void modifyUser(){
-        maintainUserController.processCreateUser(user);
+        maintainUserController.processModifyUser(user);
     }
 
     private void deleteUser(){

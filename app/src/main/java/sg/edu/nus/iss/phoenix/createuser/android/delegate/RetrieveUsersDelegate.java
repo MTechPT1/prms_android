@@ -111,7 +111,7 @@ public class RetrieveUsersDelegate extends AsyncTask<String, Void, String> {
         }
 
         if (userList !=null)
-             maintainUserController.DisplayPresenterProducerScreen(userList);
+             maintainUserController.DisplayUserListScreen(userList);
 
     }
 }
