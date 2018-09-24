@@ -8,29 +8,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
-import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
-import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_AUTHENTICATE;
 import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_USER;
 
-public class MaintainUserDelegate extends AsyncTask<String, Void, String> {
+public class RetrievePresenterProducerDelegate extends AsyncTask<String, Void, String> {
 
     private MaintainUserController maintainUserController;
-    private static final String TAG = MaintainUserDelegate.class.getName();
+    private static final String TAG = RetrievePresenterProducerDelegate.class.getName();
 
-    public MaintainUserDelegate(MaintainUserController maintainUserController){
+    public RetrievePresenterProducerDelegate(MaintainUserController maintainUserController){
         this.maintainUserController = maintainUserController;
     }
 
@@ -70,12 +66,12 @@ public class MaintainUserDelegate extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
 
-        List<User> userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<User>();
         if (result != null && !result.equals("")) {
             try {
                 JSONObject reader = new JSONObject(result);
                 //TODO change the name to what Leon would be sending from backend
-                JSONArray rpArray = reader.getJSONArray("userList");
+                JSONArray rpArray = reader.getJSONArray("users");
 
                 for (int i = 0; i < rpArray.length(); i++) {
                     User user = new User();
@@ -89,9 +85,9 @@ public class MaintainUserDelegate extends AsyncTask<String, Void, String> {
                     JSONArray roles = rpJson.getJSONArray("roles");
 
                     //TODO add roles later
-                    for (int j = 0; i < roles.length(); j++) {
-                        JSONObject rolesJSON = rpArray.getJSONObject(j);
-                        String rolename = rpJson.getString("role");
+                    for (int j = 0; j < roles.length(); j++) {
+                        JSONObject rolesJSON = roles.getJSONObject(j);
+                        String rolename = rolesJSON.getString("role");
 
                         if (rolename.compareToIgnoreCase("PRESENTER") == 0)
                                 user.setPresenter(true);
@@ -101,11 +97,8 @@ public class MaintainUserDelegate extends AsyncTask<String, Void, String> {
                             user.setProducer(true);
                     }
 
-
                     user.setUserId(userid);
                     user.setUserName(username);
-
-                   //TODO what should be done for presenter and producer
 
                     userList.add(user);
                 }
@@ -117,7 +110,8 @@ public class MaintainUserDelegate extends AsyncTask<String, Void, String> {
             Log.v(TAG, "JSON response error.");
         }
 
-        maintainUserController.displayPresenterProducerListScreen(userList);
+        if (userList !=null)
+             maintainUserController.DisplayUserListScreen(userList);
 
     }
 }

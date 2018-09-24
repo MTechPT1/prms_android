@@ -31,18 +31,6 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
     @Override
     protected Boolean doInBackground(User... users) {
 
-       /* URL searchUrl = MaintainUserController.buildUrl("/user/create",users[0]);
-
-        String githubSearchResults = null;
-        try {
-
-            githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return githubSearchResults;
-        */
-
         Uri builtUri = Uri.parse(PRMS_BASE_URL_USER).buildUpon().build();
         builtUri = Uri.withAppendedPath(builtUri,"delete/" + users[0].getUserId().toString()).buildUpon().build();
         Log.v(TAG, builtUri.toString());

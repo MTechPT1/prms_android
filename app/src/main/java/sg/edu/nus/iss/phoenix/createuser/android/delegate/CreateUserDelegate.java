@@ -34,18 +34,6 @@ public class CreateUserDelegate extends AsyncTask <User, Void, Boolean>{
     @Override
     protected Boolean doInBackground(User... users) {
 
-       /* URL searchUrl = MaintainUserController.buildUrl("/user/create",users[0]);
-
-        String githubSearchResults = null;
-        try {
-
-            githubSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return githubSearchResults;
-        */
-
         Uri builtUri = Uri.parse(PRMS_BASE_URL_USER).buildUpon().build();
         builtUri = Uri.withAppendedPath(builtUri,"create").buildUpon().build();
         Log.v(TAG, builtUri.toString());
