@@ -30,14 +30,18 @@
         <activity android:name=".authenticate.android.ui.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.android.ui.MainScreen" />
+        <activity android:name=".core.android.ui.MainScreen">
+
+        </activity>
         <activity android:name=".radioprogram.android.ui.ProgramListScreen" />
         <activity android:name=".radioprogram.android.ui.MaintainProgramScreen" />
         <activity android:name=".radioprogram.android.ui.ReviewSelectProgramScreen"></activity>
+        <activity android:name=".schedule.android.ui.ReviewSelectScheduleProgramScreen"></activity>
+        <activity android:name=".schedule.android.ui.ReviewSelectPresenterProducerScreen"></activity>
+        <activity android:name=".schedule.android.ui.ScheduleScreen"></activity>
         <activity android:name=".createuser.android.ui.MaintainUserScreen"></activity>
         <activity android:name=".createuser.android.ui.UserListScreen"></activity>
     </application>

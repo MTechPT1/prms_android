@@ -88,13 +88,12 @@
         <!-- Link to Login Screen -->
         <TextView
             android:id="@+id/tv_error_message_display"
-            android:textSize ="22sp"
-            android:padding="16dp"
-            android:text="@string/error_msg"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:padding="16dp"
+            android:text="@string/error_msg"
+            android:textSize="22sp"
+            android:visibility="invisible" />
 
         <ProgressBar
             android:id="@+id/pb_loading_indicator"

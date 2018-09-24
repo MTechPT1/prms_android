@@ -1,8 +1,8 @@
 package sg.edu.nus.iss.phoenix.authenticate.android.ui;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +20,7 @@ public class LoginScreen extends AppCompatActivity {
     String userAuthResults = null;
     private Button mbtn_login;
     private EditText mUsernameEditText, mPasswordEditText;
-    private TextView mSearchResultsTextView;
+    //private TextView mSearchResultsTextView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
 
@@ -47,6 +47,8 @@ public class LoginScreen extends AppCompatActivity {
             public void onClick(View view) {
                 ControlFactory.getLoginController().login(
                         mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+
+                //ControlFactory.getMainController().startUseCase("WK");
             }
 
         });
@@ -68,7 +70,7 @@ public class LoginScreen extends AppCompatActivity {
 
     // Show the error and hide the data.
     public void showErrorMessage() {
-        mSearchResultsTextView.setVisibility(View.INVISIBLE);
+        //mSearchResultsTextView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
