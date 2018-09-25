@@ -52,7 +52,7 @@ public class CreateUserDelegate extends AsyncTask <User, Void, Boolean>{
 
         try {
             json.put("id", users[0].getUserName());
-            json.put("password","abcd");
+            json.put("password",users[0].getPassWord());
             json.put("name",users[0].getUserName());
 
             if (users[0].isPresenter()) {

@@ -9,9 +9,13 @@ import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Scanner;
 
 import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
@@ -31,6 +35,14 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
     @Override
     protected Boolean doInBackground(User... users) {
 
+        String name = null;
+        try {
+            name = URLEncoder.encode(String.valueOf(users[0].getUserId()), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.v(TAG, e.getMessage());
+            return new Boolean(false);
+        }
+
         Uri builtUri = Uri.parse(PRMS_BASE_URL_USER).buildUpon().build();
         builtUri = Uri.withAppendedPath(builtUri,"delete/" + users[0].getUserId().toString()).buildUpon().build();
         Log.v(TAG, builtUri.toString());
@@ -39,41 +51,32 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             Log.v(TAG, e.getMessage());
-            return new Boolean(false);
+           // return new Boolean(false);
         }
 
         boolean success = false;
         HttpURLConnection httpURLConnection = null;
-        DataOutputStream dos = null;
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoInput(true);
             httpURLConnection.setInstanceFollowRedirects(false);
             httpURLConnection.setRequestMethod("DELETE");
             httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf8");
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.setDoOutput(true);
-            dos = new DataOutputStream(httpURLConnection.getOutputStream());
-            dos.write(256);
+            httpURLConnection.setUseCaches (false);
+            System.out.println(httpURLConnection.getResponseCode());
             Log.v(TAG, "Http DELETE response " + httpURLConnection.getResponseCode());
             success = true;
         } catch (IOException exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
-            if (dos != null) {
-                try {
-                    dos.flush();
-                    dos.close();
-                } catch (IOException exception) {
-                    Log.v(TAG, exception.getMessage());
-                }
-            }
             if (httpURLConnection != null) httpURLConnection.disconnect();
         }
         return new Boolean(success);
+
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
-        this.maintainUserController.userDeleted(result.booleanValue());
+        this.maintainUserController.userCreated(result);
     }
 }
