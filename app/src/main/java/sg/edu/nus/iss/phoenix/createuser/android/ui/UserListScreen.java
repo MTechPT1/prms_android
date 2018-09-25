@@ -30,6 +30,8 @@ public class UserListScreen extends AppCompatActivity {
          userListView = (ListView) findViewById(R.id.userlist);
          adapter = new UserListAdapter(this);
          userListView.setAdapter(adapter);
+
+         ControlFactory.getMaintainUserController().onDisplayUserList(UserListScreen.this);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class UserListScreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add){
             // create new user
-            ControlFactory.getMaintainUserController().setMaintainUser(0);
+            ControlFactory.getMaintainUserController().setMaintainUser(0,null);
             return true;
         }else{
             return false;

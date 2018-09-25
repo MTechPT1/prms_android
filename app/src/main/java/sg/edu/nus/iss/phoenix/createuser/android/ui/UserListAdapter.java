@@ -107,13 +107,13 @@ public class UserListAdapter extends BaseAdapter {
     }
 
     private void editUser(int p){
-         System.out.print(p);
-        ControlFactory.getMaintainUserController().setMaintainUser(1);
+        System.out.print(p);
+        ControlFactory.getMaintainUserController().setMaintainUser(1,userList.get(p));
     }
 
     private void deleteUser(int p){
         System.out.print(p);
-        ControlFactory.getMaintainUserController().setMaintainUser(2);
+        ControlFactory.getMaintainUserController().setMaintainUser(2,userList.get(p));
     }
 
 }

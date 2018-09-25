@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.net.MalformedURLException;
+import java.net.PortUnreachableException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -28,6 +29,8 @@ public class MaintainUserController {
     private UserListScreen userListScreen;
     private MaintainUserScreen maintainUserScreen;
 
+    private User user = new User(); //  edit user and delete user
+
     private ScheduleScreen scheduleScreen;
     private ReviewSelectPresenterProducerScreen reviewSelectPresenterProducerScreen;
     static private String PRMS_BASE_URL = "https://localhost";
@@ -40,6 +43,14 @@ public class MaintainUserController {
 
     public void setActionType(int actionType) {
         this.actionType = actionType;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void startUsecase() {
@@ -65,8 +76,9 @@ public class MaintainUserController {
         this.reviewSelectPresenterProducerScreen.AllUsersRetrieved(userList);
     }
 
-    public void setMaintainUser(int actionType) {
+    public void setMaintainUser(int actionType, User user) {
         this.actionType = actionType;
+        this.user = user != null ? user:new User();
         Intent intent = new Intent(MainController.getApp(), MaintainUserScreen.class);
         MainController.displayScreen(intent);
     }
@@ -121,6 +133,16 @@ public class MaintainUserController {
     }
 
     public void userCreated(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUsecase();
+    }
+
+    public void userDeleted(boolean success) {
+        // Go back to ProgramList screen with refreshed programs.
+        startUsecase();
+    }
+
+    public void userModified(boolean success) {
         // Go back to ProgramList screen with refreshed programs.
         startUsecase();
     }
