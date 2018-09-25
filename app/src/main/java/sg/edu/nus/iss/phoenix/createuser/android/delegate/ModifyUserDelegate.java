@@ -21,7 +21,7 @@ import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_B
 
 public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
 
-    private static final String TAG = DeleteUserDelegate.class.getName();
+    private static final String TAG = ModifyUserDelegate.class.getName();
     private MaintainUserController maintainUserController;
 
     public ModifyUserDelegate(MaintainUserController maintainUserController){
@@ -47,8 +47,8 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
         JSONArray roles = new JSONArray();
 
         try {
-            json.put("id", users[0].getUserName());
-            json.put("password","abcd");
+            json.put("id", users[0].getUserId());
+            json.put("password",users[0].getPassWord());
             json.put("name",users[0].getUserName());
 
             if (users[0].isPresenter()) {
@@ -80,6 +80,7 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
             dos = new DataOutputStream(httpURLConnection.getOutputStream());
+            Log.v(TAG,json.toString());
             dos.writeUTF(json.toString());
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
