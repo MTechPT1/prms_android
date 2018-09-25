@@ -102,6 +102,6 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
 
     @Override
     protected void onPostExecute(Boolean result) {
-        this.maintainUserController.userCreated(result.booleanValue());
+        this.maintainUserController.userModified(result.booleanValue());
     }
 }
