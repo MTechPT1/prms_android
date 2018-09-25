@@ -26,13 +26,14 @@ import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 public class MaintainUserAdapter extends BaseAdapter {
 
     private static final int TYPE_NAME = 0;
-    private static final int TYPE_DATE = 1;
-    private static final int TYPE_ROLE = 2;
+    private static final int TYPE_PASSWORD = 1;
+    private static final int TYPE_DATE = 2;
+    private static final int TYPE_ROLE = 3;
 
     private static final String PRESENTER = "Presenter";
     private static final String PRODUCER = "Producer";
 
-    private static final Integer NUM_ITEMS = 2;
+    private static final Integer NUM_ITEMS = 3;
 
     private String[] roles = {PRESENTER,PRODUCER};
 
@@ -64,6 +65,8 @@ public class MaintainUserAdapter extends BaseAdapter {
         if (position ==0){
             return TYPE_NAME;
         } else if (position == 1){
+            return TYPE_PASSWORD;
+        }else if (position == 2){
             return TYPE_DATE;
         }
         else {
@@ -76,7 +79,9 @@ public class MaintainUserAdapter extends BaseAdapter {
         int type = getItemViewType(position);
         if (type == TYPE_NAME){
             return user.getUserName();
-        }else if (type == TYPE_DATE){
+        }else if (type == TYPE_PASSWORD){
+            return user.getPassWord();
+        } else if (type == TYPE_DATE){
             return user.getJoinDate();
         } else{
              return roles[position-NUM_ITEMS];
@@ -85,7 +90,7 @@ public class MaintainUserAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -93,15 +98,26 @@ public class MaintainUserAdapter extends BaseAdapter {
 
         int type = getItemViewType(position);
         ViewHolder usernameHolder = null;
+        ViewHolder passwordHolder = null;
         ViewHolder joindateHolder = null;
         if (convertView == null){
              switch (type){
                  case TYPE_NAME:{
                      convertView = LayoutInflater.from(context).inflate(
                              R.layout.item_edittext_layout,parent,false);
-                     EditText editText = (EditText)convertView.findViewById(R.id.text_input_username);
-                     usernameHolder = new ViewHolder(convertView,R.id.text_input_username);
+                     EditText editText = (EditText)convertView.findViewById(R.id.text_input_user);
+                     editText.setHint("User Name...");
+                     usernameHolder = new ViewHolder(convertView,R.id.text_input_user);
                      convertView.setTag(usernameHolder);
+                 }
+                 break;
+                 case TYPE_PASSWORD:{
+                     convertView = LayoutInflater.from(context).inflate(
+                             R.layout.item_edittext_layout,parent,false);
+                     EditText editText = (EditText)convertView.findViewById(R.id.text_input_user);
+                     editText.setHint("Password...");
+                     passwordHolder = new ViewHolder(convertView,R.id.text_input_user);
+                     convertView.setTag(passwordHolder);
                  }
                  break;
                  case TYPE_DATE:{
@@ -127,9 +143,14 @@ public class MaintainUserAdapter extends BaseAdapter {
                     usernameHolder = (ViewHolder)convertView.getTag();
                 }
                 break;
+                case TYPE_PASSWORD:{
+                    passwordHolder = (ViewHolder)convertView.getTag();
+                }
+                break;
                 case TYPE_DATE:{
                     joindateHolder = (ViewHolder)convertView.getTag();
                 }
+                break;
             }
         }
 
@@ -142,6 +163,11 @@ public class MaintainUserAdapter extends BaseAdapter {
             case TYPE_DATE:{
                 joindateHolder.editText.setText(user.getJoinDate() !=null ? user.getJoinDate(): "");
                 moniterDateEdit(joindateHolder,TYPE_DATE,position);
+            }
+            break;
+            case TYPE_PASSWORD:{
+                passwordHolder.editText.setText(user.getPassWord() !=null ? user.getPassWord(): "");
+                monitorEdit(passwordHolder,TYPE_PASSWORD,position);
             }
             break;
             case TYPE_ROLE:{
@@ -215,6 +241,10 @@ public class MaintainUserAdapter extends BaseAdapter {
                 holder.editText.setText(user.getUserName()!=null?user.getUserName():"");
             }
             break;
+            case TYPE_PASSWORD:{
+                holder.editText.setText(user.getPassWord()!=null?user.getPassWord():"");
+            }
+            break;
         }
 
         TextWatcher watcher = new TextWatcher() {
@@ -233,6 +263,11 @@ public class MaintainUserAdapter extends BaseAdapter {
                 switch (type) {
                     case TYPE_NAME: {
                         user.setUserName(!TextUtils.isEmpty(s) ? s.toString() : "");
+                        //Toast.makeText(context, quizItemObj.getQuiz_title(), Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                    case TYPE_PASSWORD: {
+                        user.setPassWord(!TextUtils.isEmpty(s) ? s.toString() : "");
                         //Toast.makeText(context, quizItemObj.getQuiz_title(), Toast.LENGTH_SHORT).show();
                     }
                     break;
