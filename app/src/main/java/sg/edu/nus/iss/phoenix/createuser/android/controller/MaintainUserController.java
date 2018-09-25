@@ -99,27 +99,6 @@ public class MaintainUserController {
         new ModifyUserDelegate(this).execute(user);
     }
 
-    static public URL buildUrl(String endpoint, User user) {
-        Uri.Builder uri = Uri.parse(PRMS_BASE_URL).buildUpon().appendPath(endpoint)
-                .appendQueryParameter("id", user.getUserId())
-                .appendQueryParameter("password", "abcd")
-                .appendQueryParameter("name", user.getUserName())
-                .appendQueryParameter("role", "Presenter");
-
-        Log.v(TAG, uri.toString());
-
-        URL url = null;
-
-        try {
-            url = new URL(uri.toString());
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        return url;
-    }
-
     public void userCreated(boolean success) {
         // Go back to ProgramList screen with refreshed programs.
         startUsecase();
