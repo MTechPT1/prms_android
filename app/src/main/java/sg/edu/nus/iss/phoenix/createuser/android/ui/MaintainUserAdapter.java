@@ -46,6 +46,10 @@ public class MaintainUserAdapter extends BaseAdapter {
         this.user = user;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public int getCount() {
         return NUM_ITEMS + roles.length;
     }
