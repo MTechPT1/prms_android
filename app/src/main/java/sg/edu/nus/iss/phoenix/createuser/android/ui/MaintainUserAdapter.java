@@ -235,7 +235,6 @@ public class MaintainUserAdapter extends BaseAdapter {
         if (holder.editText.getTag() instanceof TextWatcher) {
             holder.editText.removeTextChangedListener((TextWatcher) holder.editText.getTag());
         }
-
         switch (type){
             case TYPE_NAME:{
                 holder.editText.setText(user.getUserName()!=null?user.getUserName():"");
