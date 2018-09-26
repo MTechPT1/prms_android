@@ -99,7 +99,7 @@ public class RetrieveUsersDelegate extends AsyncTask<String, Void, String> {
 
                     user.setUserId(userid);
                     user.setUserName(username);
-
+                    user.setPassWord(password);
                     userList.add(user);
                 }
 
