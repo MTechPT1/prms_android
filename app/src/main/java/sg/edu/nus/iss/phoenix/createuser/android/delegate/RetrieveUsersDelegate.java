@@ -82,6 +82,7 @@ public class RetrieveUsersDelegate extends AsyncTask<String, Void, String> {
                     String userid = rpJson.getString("id");
                     String username = rpJson.getString("name");
                     String password = rpJson.getString("password");
+                    String joinDate = rpJson.getString("joinDate");
                     JSONArray roles = rpJson.getJSONArray("roles");
 
                     //TODO add roles later
@@ -100,6 +101,7 @@ public class RetrieveUsersDelegate extends AsyncTask<String, Void, String> {
                     user.setUserId(userid);
                     user.setUserName(username);
                     user.setPassWord(password);
+                    user.setJoinDate(joinDate);
                     userList.add(user);
                 }
 
