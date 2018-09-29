@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -9,9 +12,11 @@ import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import sg.edu.nus.iss.phoenix.schedule.android.controller.MaintainScheduleController;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
@@ -49,10 +54,10 @@ public class ModifyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
 
         JSONObject json = new JSONObject();
         try {
-            json.put("id", params[0].getId());
+            json.put("programSlotId", params[0].getId());
             json.put("assignedBy", params[0].getAssignedBy());
             json.put("duration", params[0].getDuration());
-            json.put("startTime", params[0].getStartTime());
+            json.put("startDate", params[0].getStartTime());
             json.put("programName", params[0].getRadioProgram().getRadioProgramName());
             json.put("presenterId", params[0].getPresenter().getUserId());
             json.put("producerId", params[0].getProducer().getUserId());
@@ -76,7 +81,7 @@ public class ModifyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
             success = true;
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
             if (dos != null) {

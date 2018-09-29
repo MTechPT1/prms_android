@@ -142,7 +142,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
             retrieveScheduleProgram();
 
             //WK: Dummy Schedule
-            test();
+            //test();
         }
 
     };

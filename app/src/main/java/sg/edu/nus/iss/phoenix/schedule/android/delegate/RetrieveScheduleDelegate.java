@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.controller.ReviewSelectScheduleProgramController;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
@@ -43,6 +47,7 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         Uri builtUri1 = Uri.parse(PRMS_BASE_URL_SCHEDULE_PROGRAM).buildUpon().build();
         Uri builtUri = Uri.withAppendedPath(builtUri1, params[0]).buildUpon().build();
+        builtUri = Uri.withAppendedPath(builtUri, params[1]).buildUpon().build();
         Log.v(TAG, builtUri.toString());
         URL url = null;
         try {
@@ -78,48 +83,10 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         ScheduleProgram scheduleProgram = new ScheduleProgram();
-        List<ProgramSlot> programSlots = new ArrayList<ProgramSlot>();
+        List<ProgramSlot> programSlots;
         if (result != null && !result.equals("")) {
-            try {
-                JSONObject reader = new JSONObject(result);
-                //TODO change the name to what Karen would be sending from backend
-                JSONArray rpArray = reader.getJSONArray("rpList");
-
-                for (int i = 0; i < rpArray.length(); i++) {
-                    ProgramSlot programSlot = new ProgramSlot();
-                    JSONObject rpJson = rpArray.getJSONObject(i);
-                    //TODO check if all these paramteres can be fetched in first call itself or needs to be
-                    //fetched in multiple calls
-                    String programName = rpJson.getString("programName");
-                    String radioProgramDescription = rpJson.getString("radioProgramDescription");
-                    String radioProgramDuration = rpJson.getString("radioProgramDuration");
-                    RadioProgram radioProgram = new RadioProgram(programName,radioProgramDescription,radioProgramDuration);
-                    programSlot.setRadioProgram(radioProgram);
-
-                    String weekId = rpJson.getString("weekId");
-                    if(weekId != null){
-                        programSlot.setWeekId(Integer.valueOf(weekId));
-                    }
-
-                    String startTime = rpJson.getString("startTime");
-                    programSlot.setStartTime(startTime);
-
-                    String duration = rpJson.getString("duration");
-                    if(duration != null){
-                        programSlot.setDuration(Integer.valueOf(duration));
-                    }
-
-                    String assignedBy = rpJson.getString("assignedBy");
-                    programSlot.setAssignedBy(assignedBy);
-
-                    //TODO what should be done for presenter and producer
-
-                    programSlots.add(programSlot);
-                }
-                scheduleProgram.setProgramSlots(programSlots);
-            } catch (JSONException e) {
-                Log.v(TAG, e.getMessage());
-            }
+            programSlots = setProgramSlotFromReponse(result);
+            scheduleProgram.setProgramSlots(programSlots);
         } else {
             Log.v(TAG, "JSON response error.");
         }
@@ -127,5 +94,56 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
         if (reviewSelectScheduleProgramController != null){
             reviewSelectScheduleProgramController.displayScheduleProgram(scheduleProgram);
         }
+    }
+
+    protected List<ProgramSlot> setProgramSlotFromReponse(String result){
+        List<ProgramSlot> programSlots = new ArrayList<ProgramSlot>();
+        try {
+            Log.v(TAG,"result:"+result);
+            JSONObject reader = new JSONObject(result);
+            JSONArray rpArray = reader.getJSONArray("psList");
+
+            for (int i = 0; i < rpArray.length(); i++) {
+                ProgramSlot programSlot = new ProgramSlot();
+                JSONObject rpJson = rpArray.getJSONObject(i);
+
+                String programName = rpJson.getString("programName");
+                RadioProgram radioProgram = new RadioProgram();
+                radioProgram.setRadioProgramName(programName);
+                programSlot.setRadioProgram(radioProgram);
+
+                String programSlotId = rpJson.getString("programSlotId");
+                if(programSlotId != null){
+                    programSlot.setId(Integer.valueOf(programSlotId));
+                }
+                String weekId = rpJson.getString("weekId");
+                if(weekId != null){
+                    programSlot.setWeekId(Integer.valueOf(weekId));
+                }
+                String startTime = rpJson.getString("startDate");
+                programSlot.setStartTime(startTime);
+                String duration = rpJson.getString("duration");
+                if(duration != null){
+                    programSlot.setDuration(Integer.valueOf(duration));
+                }
+                String assignedBy = rpJson.getString("assignedBy");
+                programSlot.setAssignedBy(assignedBy);
+
+                String presenterId = rpJson.getString("presenterId");
+                User presenter = new User();
+                presenter.setUserId(presenterId);
+                programSlot.setPresenter(presenter);
+                String producerId = rpJson.getString("producerId");
+                User producer = new User();
+                producer.setUserId(producerId);
+                programSlot.setProducer(producer);
+
+                Log.v(TAG,programName+"::"+weekId);
+                programSlots.add(programSlot);
+            }
+        } catch (JSONException e) {
+            Log.v(TAG, e.getMessage());
+        }
+        return programSlots;
     }
 }
