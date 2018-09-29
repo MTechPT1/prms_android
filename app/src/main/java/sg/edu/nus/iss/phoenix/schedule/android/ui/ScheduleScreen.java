@@ -224,20 +224,19 @@ public class ScheduleScreen extends AppCompatActivity {
                 textView_timeslot.setText(programSlot.getStartTime().toString());
             }
             if (programSlot.getPresenter() != null) {
-                textView_presenter.setText(programSlot.getPresenter().getUserName().toString());
+                textView_presenter.setText(programSlot.getPresenter().getUserName());
             }
             if (programSlot.getProducer() != null) {
-                textView_producer.setText(programSlot.getProducer().getUserName().toString());
+                textView_producer.setText(programSlot.getProducer().getUserName());
             }
             if (programSlot.getRadioProgram() != null) {
-                textView_radioprogram.setText(programSlot.getRadioProgram().getRadioProgramName().toString());
+                textView_radioprogram.setText(programSlot.getRadioProgram().getRadioProgramName());
             }
         }
 
     }
 
     private void ShowAlertDialog(String string) {
-        //TODO populate the proper program slot that needs to be created/modified/deleted/copied
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScheduleScreen.this);
         builder.setMessage(string)

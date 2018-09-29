@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -52,7 +55,7 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
         try {
             json.put("assignedBy", params[0].getAssignedBy());
             json.put("duration", params[0].getDuration());
-            json.put("startTime", params[0].getStartTime());
+            json.put("startDate", params[0].getStartTime());
             json.put("programName", params[0].getRadioProgram().getRadioProgramName());
             json.put("presenterId", params[0].getPresenter().getUserId());
             json.put("producerId", params[0].getProducer().getUserId());
@@ -76,7 +79,7 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
             success = true;
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
             if (dos != null) {

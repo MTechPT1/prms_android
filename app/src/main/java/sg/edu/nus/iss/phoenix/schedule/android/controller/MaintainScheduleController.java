@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
 import android.content.Intent;
@@ -8,6 +11,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.delegate.CreateScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.DeleteScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.ModifyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
+import sg.edu.nus.iss.phoenix.schedule.android.ui.ReviewSelectScheduleProgramScreen;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
 public class MaintainScheduleController {
@@ -22,7 +26,7 @@ public class MaintainScheduleController {
      * Displays the main screen again
      */
     public void startUseCase(){
-         Intent intent = new Intent(MainController.getApp(), ScheduleScreen.class);
+         Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
          MainController.displayScreen(intent);
      }
 

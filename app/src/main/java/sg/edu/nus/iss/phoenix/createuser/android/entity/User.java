@@ -10,6 +10,10 @@ public class User implements Serializable {
     private boolean isPresenter;
     private boolean isProducer;
 
+    public User(){
+
+    }
+
     public String getUserId() {
         return userId;
     }

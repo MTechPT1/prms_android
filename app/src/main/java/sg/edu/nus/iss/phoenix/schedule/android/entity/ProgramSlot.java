@@ -10,6 +10,7 @@ public class ProgramSlot implements Serializable {
     private int id;
     private int weekId;
     private int duration;
+    private int year;
 
     private String assignedBy;
     private String startTime;
@@ -31,6 +32,14 @@ public class ProgramSlot implements Serializable {
         this.assignedBy = assignedBy;
         this.startTime = startTime;
         this.weekId = weekId;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public int getId() {
