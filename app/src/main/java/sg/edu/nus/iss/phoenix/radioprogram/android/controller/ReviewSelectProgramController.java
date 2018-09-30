@@ -10,6 +10,7 @@ import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.radioprogram.android.delegate.RetrieveProgramsDelegate;
 import sg.edu.nus.iss.phoenix.radioprogram.android.ui.ReviewSelectProgramScreen;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
+import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
 public class ReviewSelectProgramController {
     // Tag for logging.
@@ -17,8 +18,16 @@ public class ReviewSelectProgramController {
 
     private ReviewSelectProgramScreen reviewSelectProgramScreen;
     private RadioProgram rpSelected = null;
+    private ScheduleScreen scheduleScreen;
 
     public void startUseCase() {
+        rpSelected = null;
+        Intent intent = new Intent(MainController.getApp(), ReviewSelectProgramScreen.class);
+        MainController.displayScreen(intent);
+    }
+
+    public void startUseCase(ScheduleScreen scheduleScreen) {
+        this.scheduleScreen = scheduleScreen;
         rpSelected = null;
         Intent intent = new Intent(MainController.getApp(), ReviewSelectProgramScreen.class);
         MainController.displayScreen(intent);
@@ -39,6 +48,11 @@ public class ReviewSelectProgramController {
         // To call the base use case controller with the selected radio program.
         // At present, call the MainController instead.
         ControlFactory.getMainController().selectedProgram(rpSelected);
+    }
+
+    public void selectProgramForScheduleScreen(RadioProgram radioProgram) {
+        rpSelected = radioProgram;
+        this.scheduleScreen.selectedRadioProgram(rpSelected);
     }
 
     public void selectCancel() {
