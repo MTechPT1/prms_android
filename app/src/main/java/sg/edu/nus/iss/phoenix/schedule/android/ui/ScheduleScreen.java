@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -129,7 +130,7 @@ public class ScheduleScreen extends AppCompatActivity {
         button_radioProgram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectProgramController().startUseCase();
+                ControlFactory.getReviewSelectProgramController().startUseCase(ScheduleScreen.this);
             }
         });
 
@@ -218,6 +219,9 @@ public class ScheduleScreen extends AppCompatActivity {
         textView_presenter = (TextView) findViewById(R.id.textView_presenter);
         textView_producer = (TextView) findViewById(R.id.textView_producer);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
+
+        //Log.i("Tag", "getPresenter: "+programSlot.getPresenter().getUserName().toString());
+        //Log.i("Tag", "getProducer: "+programSlot.getProducer().getUserName().toString());
 
         if (programSlot != null) {
             if (programSlot.getStartTime() != null) {
@@ -309,7 +313,7 @@ public class ScheduleScreen extends AppCompatActivity {
         int mHour = c.get(Calendar.HOUR_OF_DAY);
         int mMinute = c.get(Calendar.MINUTE);
 
-        new TimePickerDialog(ScheduleScreen.this, time, mHour, mMinute, false).show();
+        new TimePickerDialog(ScheduleScreen.this, time, mHour, mMinute, true).show();
     }
 
     final TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
@@ -319,16 +323,19 @@ public class ScheduleScreen extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
 
-            String myFormat = "hh:mm"; //In which you need put here
+            Log.i("Tag",calendar.getTime().toString());
+
+            String myFormat = "HH:mm"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
 //            if (!isNewDateForCopy) {
             selectedTime = sdf.format(calendar.getTime());
-            if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                selectedTime = selectedTime + "AM";
-            } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                selectedTime = selectedTime + "PM";
-            }
+//            if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+//                selectedTime = selectedTime + "AM";
+//            } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+//                selectedTime = selectedTime + "PM";
+//            }
+
             if (programSlot == null) {
                 programSlot = new ProgramSlot();
             }

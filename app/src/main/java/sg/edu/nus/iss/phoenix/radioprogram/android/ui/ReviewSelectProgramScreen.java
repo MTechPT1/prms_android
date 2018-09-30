@@ -8,11 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ReviewSelectProgramScreen extends AppCompatActivity {
     // Tag for logging
     private static final String TAG = ReviewSelectProgramScreen.class.getName();
 
-    private RadioProgramAdapter mRPAdapter;
+    private RadioProgramAdapter2 mRPAdapter2;
     // private ArrayAdapter<String> adapter = null;
     private ListView mListView;
     private RadioProgram selectedRP = null;
@@ -37,25 +35,38 @@ public class ReviewSelectProgramScreen extends AppCompatActivity {
         // ArrayList<String> radioProgramNames = new ArrayList<String>();
         // mRPAdapter = new ArrayAdapter<String>(this, R.layout.activity_review_select_program,
         //        R.id.maintain_program_name_text_view, radioProgramNames);
-        mRPAdapter = new RadioProgramAdapter(this, radioPrograms);
+        mRPAdapter2 = new RadioProgramAdapter2(this, radioPrograms);
 
         mListView = (ListView) findViewById(R.id.review_select_pm_list);
-        mListView.setAdapter(mRPAdapter);
+        mListView.setAdapter(mRPAdapter2);
 
-        // Setup the item selection listener
-        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Log.i(TAG, "ReviewSelectProgramScreen");
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                // Log.v(TAG, "Radio program at position " + position + " selected.");
-                RadioProgram rp = (RadioProgram) adapterView.getItemAtPosition(position);
-                // Log.v(TAG, "Radio program name is " + rp.getRadioProgramName());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "Radio program at position " + position + " selected.");
+                RadioProgram rp = (RadioProgram) parent.getItemAtPosition(position);
+                Log.i(TAG, "Radio program name is " + rp.getRadioProgramName());
+                Toast.makeText(ReviewSelectProgramScreen.this, rp.getRadioProgramName()+" is selected", Toast.LENGTH_LONG).show();
                 selectedRP = rp;
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // your stuff
-            }
         });
+
+        // Setup the item selection listener
+//        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+//                Log.i(TAG, "Radio program at position " + position + " selected.");
+//                RadioProgram rp = (RadioProgram) adapterView.getItemAtPosition(position);
+//                Log.i(TAG, "Radio program name is " + rp.getRadioProgramName());
+//                selectedRP = rp;
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                // your stuff
+//            }
+//        });
     }
 
     @Override
@@ -88,7 +99,8 @@ public class ReviewSelectProgramScreen extends AppCompatActivity {
                 }
                 else {
                     Log.v(TAG, "Selected radio program: " + selectedRP.getRadioProgramName() + "...");
-                    ControlFactory.getReviewSelectProgramController().selectProgram(selectedRP);
+                    ControlFactory.getReviewSelectProgramController().selectProgramForScheduleScreen(selectedRP);
+                    this.finish();
                 }
         }
 
@@ -101,10 +113,11 @@ public class ReviewSelectProgramScreen extends AppCompatActivity {
     }
 
     public void showPrograms(List<RadioProgram> radioPrograms) {
-        mRPAdapter.clear();
+        mRPAdapter2.clear();
         for (int i = 0; i < radioPrograms.size(); i++) {
-            mRPAdapter.add(radioPrograms.get(i));
+            mRPAdapter2.add(radioPrograms.get(i));
         }
+
     }
 }
 
