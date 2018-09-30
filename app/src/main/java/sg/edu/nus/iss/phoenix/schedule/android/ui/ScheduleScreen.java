@@ -220,18 +220,18 @@ public class ScheduleScreen extends AppCompatActivity {
         textView_producer = (TextView) findViewById(R.id.textView_producer);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
 
-        //Log.i("Tag", "getPresenter: "+programSlot.getPresenter().getUserName().toString());
-        //Log.i("Tag", "getProducer: "+programSlot.getProducer().getUserName().toString());
+        Log.i("Tag", "getPresenter: "+programSlot.getPresenter().getUserId().toString());
+        Log.i("Tag", "getProducer: "+programSlot.getProducer().getUserId().toString());
 
         if (programSlot != null) {
             if (programSlot.getStartTime() != null) {
                 textView_timeslot.setText(programSlot.getStartTime().toString());
             }
             if (programSlot.getPresenter() != null) {
-                textView_presenter.setText(programSlot.getPresenter().getUserName());
+                textView_presenter.setText(programSlot.getPresenter().getUserId());
             }
             if (programSlot.getProducer() != null) {
-                textView_producer.setText(programSlot.getProducer().getUserName());
+                textView_producer.setText(programSlot.getProducer().getUserId());
             }
             if (programSlot.getRadioProgram() != null) {
                 textView_radioprogram.setText(programSlot.getRadioProgram().getRadioProgramName());

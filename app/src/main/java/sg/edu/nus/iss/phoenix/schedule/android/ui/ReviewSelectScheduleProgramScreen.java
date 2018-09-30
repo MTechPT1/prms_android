@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -148,12 +149,25 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
     };
 
     public void displayScheduleProgram(ScheduleProgram schedulePrograms) {
+
         this.schedulePrograms = schedulePrograms;
-        if(this.schedulePrograms != null){
-            if(this.schedulePrograms.getProgramSlots() != null){
+        if (this.schedulePrograms != null) {
+            if (this.schedulePrograms.getProgramSlots() != null) {
                 mSPAdapter.clear();
                 for (int i = 0; i < schedulePrograms.getProgramSlots().size(); i++) {
                     mSPAdapter.add(schedulePrograms.getProgramSlots().get(i));
+                    Log.i("Tag", schedulePrograms.getProgramSlots().get(i).getRadioProgram().getRadioProgramName().toString());
+                    if (schedulePrograms.getProgramSlots().get(i).getPresenter() != null) {
+                        Log.i("Tag", String.valueOf(schedulePrograms.getProgramSlots().get(i).getPresenter().getUserName()));
+                    } else {
+                        Log.i("Tag", "getPresenter() is null");
+                    }
+
+                    if (schedulePrograms.getProgramSlots().get(i).getProducer() != null) {
+                        Log.i("Tag", String.valueOf(schedulePrograms.getProgramSlots().get(i).getProducer().getUserName()));
+                    } else {
+                        Log.i("Tag", "getProducer() is null");
+                    }
                 }
                 mSPAdapter.notifyDataSetChanged();
             }
