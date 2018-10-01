@@ -82,30 +82,39 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
      */
     @Override
     protected void onPostExecute(String result) {
+        List<ProgramSlot> programSlots = new ArrayList<ProgramSlot>();
         ScheduleProgram scheduleProgram = new ScheduleProgram();
-        List<ProgramSlot> programSlots;
-        if (result != null && !result.equals("")) {
-            programSlots = setProgramSlotFromReponse(result);
-            scheduleProgram.setProgramSlots(programSlots);
-        } else {
-            Log.v(TAG, "JSON response error.");
+        try{
+            if (result != null && !result.equals("")) {
+                JSONObject reader = new JSONObject(result);
+                JSONArray rpArray = reader.getJSONArray("psList");
+                for (int i = 0; i < rpArray.length(); i++) {
+                    ProgramSlot programSlot = new ProgramSlot();
+                    JSONObject rpJson = rpArray.getJSONObject(i);
+                    programSlot= setProgramSlotFromReponse(rpJson);
+                    programSlots.add(programSlot);
+
+                }
+
+
+                scheduleProgram.setProgramSlots(programSlots);
+            } else {
+                Log.v(TAG, "JSON response error.");
+            }
+        } catch (JSONException e) {
+        Log.v(TAG, e.getMessage());
         }
+
 
         if (reviewSelectScheduleProgramController != null){
             reviewSelectScheduleProgramController.displayScheduleProgram(scheduleProgram);
         }
     }
 
-    protected List<ProgramSlot> setProgramSlotFromReponse(String result){
-        List<ProgramSlot> programSlots = new ArrayList<ProgramSlot>();
+    protected ProgramSlot setProgramSlotFromReponse(JSONObject rpJson){
+        ProgramSlot programSlot = new ProgramSlot();
         try {
-            Log.v(TAG,"result:"+result);
-            JSONObject reader = new JSONObject(result);
-            JSONArray rpArray = reader.getJSONArray("psList");
-
-            for (int i = 0; i < rpArray.length(); i++) {
-                ProgramSlot programSlot = new ProgramSlot();
-                JSONObject rpJson = rpArray.getJSONObject(i);
+            Log.v(TAG,"rpJson:"+rpJson);
 
                 String programName = rpJson.getString("programName");
                 RadioProgram radioProgram = new RadioProgram();
@@ -139,11 +148,9 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
                 programSlot.setProducer(producer);
 
                 Log.v(TAG,programName+"::"+weekId);
-                programSlots.add(programSlot);
-            }
         } catch (JSONException e) {
             Log.v(TAG, e.getMessage());
         }
-        return programSlots;
+        return programSlot;
     }
 }

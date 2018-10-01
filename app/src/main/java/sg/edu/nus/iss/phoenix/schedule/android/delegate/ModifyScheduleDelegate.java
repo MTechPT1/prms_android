@@ -12,16 +12,15 @@ import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import sg.edu.nus.iss.phoenix.schedule.android.controller.MaintainScheduleController;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
 import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_SCHEDULE_PROGRAM;
+import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.getWeekId;
 
 public class ModifyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> {
 
@@ -61,7 +60,7 @@ public class ModifyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
             json.put("programName", params[0].getRadioProgram().getRadioProgramName());
             json.put("presenterId", params[0].getPresenter().getUserId());
             json.put("producerId", params[0].getProducer().getUserId());
-            json.put("weekId", params[0].getWeekId());
+            json.put("weekId", getWeekId(params[0].getStartTime()));
         } catch (JSONException e) {
             Log.v(TAG, e.getMessage());
         }

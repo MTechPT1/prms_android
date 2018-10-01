@@ -20,6 +20,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.controller.MaintainScheduleContro
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
 import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_SCHEDULE_PROGRAM;
+import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.getWeekId;
 
 
 public class CreateScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> {
@@ -44,6 +45,12 @@ public class CreateScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         builtUri = Uri.withAppendedPath(builtUri,"create").buildUpon().build();
         Log.v(TAG, builtUri.toString());
         URL url = null;
+
+        int duration =1;
+        if(params[0] != null && params[0].getDuration() != 0){
+            duration = params[0].getDuration();
+        }
+
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
@@ -54,12 +61,12 @@ public class CreateScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
         JSONObject json = new JSONObject();
         try {
             json.put("assignedBy", params[0].getAssignedBy());
-            json.put("duration", params[0].getDuration());
+            json.put("duration", duration);
             json.put("startDate", params[0].getStartTime());
             json.put("programName", params[0].getRadioProgram().getRadioProgramName());
             json.put("presenterId", params[0].getPresenter().getUserId());
             json.put("producerId", params[0].getProducer().getUserId());
-            json.put("weekId", params[0].getWeekId());
+            json.put("weekId", getWeekId(params[0].getStartTime()));
 
         } catch (JSONException e) {
             Log.v(TAG, e.getMessage());
