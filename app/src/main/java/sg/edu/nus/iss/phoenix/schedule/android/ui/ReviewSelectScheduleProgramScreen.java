@@ -2,6 +2,7 @@ package sg.edu.nus.iss.phoenix.schedule.android.ui;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
+    private String loggedUserName;
 
     //Variable for UI
     private ScheduleProgramAdapter mSPAdapter;
@@ -52,6 +54,10 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_schedule_program);
+
+
+        Intent intent = getIntent();
+        this.loggedUserName = intent.getStringExtra(Constant.LOGGEDUSERNAME);
 
         setupFloatingButton();
         setupScheduleProgramAdapter();
@@ -166,7 +172,7 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE);
+                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE, loggedUserName);
             }
         });
     }

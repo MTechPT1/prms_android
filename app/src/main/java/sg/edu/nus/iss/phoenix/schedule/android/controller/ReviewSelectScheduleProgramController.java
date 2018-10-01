@@ -39,8 +39,9 @@ public class ReviewSelectScheduleProgramController {
     /**
      * Displays the main screen again
      */
-    public void startUseCase(){
+    public void startUseCase(String username){
          Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
+         intent.putExtra(Constant.LOGGEDUSERNAME,username);
          MainController.displayScreen(intent);
      }
 
@@ -67,9 +68,10 @@ public class ReviewSelectScheduleProgramController {
      * TODO - why is this used?
      * @param actionType
      */
-    public void selectCreateSchedule(int actionType){
+    public void selectCreateSchedule(int actionType, String loggedUserName){
         Intent intent = new Intent(MainController.getApp(), ScheduleScreen.class);
         intent.putExtra(Constant.SCHEDULEMODE, actionType);
+        intent.putExtra(Constant.LOGGEDUSERNAME, loggedUserName);
         MainController.displayScreen(intent);
     }
 

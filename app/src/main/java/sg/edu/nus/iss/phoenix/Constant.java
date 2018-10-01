@@ -20,4 +20,5 @@ public class Constant {
     public static final String PRESENTERPRODUCER = "PRESENTERPRODUCER";
     public static final String PRESENTERPRODUCERUSER = "PRESENTERPRODUCERUSER";
     public static final String PRESENTERPRODUCERLISTENNER = "PRESENTERPRODUCERLISTENNER";
+    public static final String LOGGEDUSERNAME = "loggedUserName";
 }

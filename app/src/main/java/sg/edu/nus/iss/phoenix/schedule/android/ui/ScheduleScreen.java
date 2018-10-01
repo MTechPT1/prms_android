@@ -57,6 +57,7 @@ public class ScheduleScreen extends AppCompatActivity {
     private User selectedProducer;
     private static ProgramSlot programSlot;
     //private boolean isNewDateForCopy = false;
+    private String loggedUserName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class ScheduleScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         scheduleMode = intent.getIntExtra(Constant.SCHEDULEMODE, 0);
+        loggedUserName = intent.getStringExtra(Constant.LOGGEDUSERNAME);
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             programSlot = (ProgramSlot) getIntent().getSerializableExtra(Constant.PRORGRAMSLOT); //Obtaining data
@@ -220,17 +222,16 @@ public class ScheduleScreen extends AppCompatActivity {
         textView_producer = (TextView) findViewById(R.id.textView_producer);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
 
-
         if (programSlot != null) {
             if (programSlot.getStartTime() != null) {
-                textView_timeslot.setText(programSlot.getStartTime().toString());
+                textView_timeslot.setText(programSlot.getStartTime());
             }
             if (programSlot.getPresenter() != null) {
-                Log.i("Tag", "getPresenter: "+programSlot.getPresenter().getUserId());
+                Log.i("Tag", "getPresenter: " + programSlot.getPresenter().getUserId());
                 textView_presenter.setText(programSlot.getPresenter().getUserId());
             }
             if (programSlot.getProducer() != null) {
-                Log.i("Tag", "getProducer: "+programSlot.getProducer().getUserId());
+                Log.i("Tag", "getProducer: " + programSlot.getProducer().getUserId());
                 textView_producer.setText(programSlot.getProducer().getUserId());
             }
             if (programSlot.getRadioProgram() != null) {
@@ -246,6 +247,9 @@ public class ScheduleScreen extends AppCompatActivity {
         builder.setMessage(string)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        programSlot.setAssignedBy(loggedUserName);
+
                         switch (scheduleMode) {
                             case Constant.CREATE:
                                 ControlFactory.getMaintainScheduleController().createSchedule(programSlot);
@@ -323,8 +327,8 @@ public class ScheduleScreen extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
-            
-            Log.i("Tag",calendar.getTime().toString());
+
+            Log.i("Tag", calendar.getTime().toString());
 
             String myFormat = "HH:mm:ss"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
@@ -376,37 +380,39 @@ public class ScheduleScreen extends AppCompatActivity {
     }
 
     public boolean validation() {
-        if (textView_timeslot.getText().equals("")) {
-            textView_timeslot.requestFocus();
-            textView_timeslot.setError("No data");
-            return false;
-        }
-        else{
-            textView_timeslot.setError(null);
-        }
 
-        if (textView_presenter.getText().equals("")) {
-            textView_presenter.requestFocus();
-            textView_presenter.setError("No data");
-            return false;
-        }else{
-            textView_presenter.setError(null);
-        }
+        if (scheduleMode != Constant.DELETE) {
+            if (textView_timeslot.getText().equals("")) {
+                textView_timeslot.requestFocus();
+                textView_timeslot.setError("No data");
+                return false;
+            } else {
+                textView_timeslot.setError(null);
+            }
 
-        if (textView_producer.getText().equals("")) {
-            textView_producer.requestFocus();
-            textView_producer.setError("No data");
-            return false;
-        }else{
-            textView_producer.setError(null);
-        }
+            if (textView_presenter.getText().equals("")) {
+                textView_presenter.requestFocus();
+                textView_presenter.setError("No data");
+                return false;
+            } else {
+                textView_presenter.setError(null);
+            }
 
-        if (textView_radioprogram.getText().equals("")) {
-            textView_radioprogram.requestFocus();
-            textView_radioprogram.setError("No data");
-            return false;
-        }else{
-            textView_radioprogram.setError(null);
+            if (textView_producer.getText().equals("")) {
+                textView_producer.requestFocus();
+                textView_producer.setError("No data");
+                return false;
+            } else {
+                textView_producer.setError(null);
+            }
+
+            if (textView_radioprogram.getText().equals("")) {
+                textView_radioprogram.requestFocus();
+                textView_radioprogram.setError("No data");
+                return false;
+            } else {
+                textView_radioprogram.setError(null);
+            }
         }
 
         return true;
