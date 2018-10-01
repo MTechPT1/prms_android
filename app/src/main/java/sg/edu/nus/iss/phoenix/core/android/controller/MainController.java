@@ -3,12 +3,12 @@ package sg.edu.nus.iss.phoenix.core.android.controller;
 import android.app.Application;
 import android.content.Intent;
 
+import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.core.android.ui.MainScreen;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 
 public class MainController {
     private static Application app = null;
-    private String username;
     private MainScreen mainScreen;
 
     public static Application getApp() {
@@ -25,7 +25,7 @@ public class MainController {
     }
 
     public void startUseCase(String username) {
-        this.username = username;
+        Constant.loggedUserName = username;
 
         Intent intent = new Intent(MainController.getApp(), MainScreen.class);
         MainController.displayScreen(intent);
@@ -33,7 +33,7 @@ public class MainController {
 
     public void onDisplay(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
-        mainScreen.showUsername(username);
+        mainScreen.showUsername(Constant.loggedUserName);
     }
 
     public void selectMaintainProgram() {
@@ -41,16 +41,16 @@ public class MainController {
     }
 
     public void maintainedProgram() {
-        startUseCase(username);
+        startUseCase(Constant.loggedUserName);
     }
 
     public void selectLogout() {
-        username = "<not logged in>";
+        Constant.loggedUserName = "<not logged in>";
         ControlFactory.getLoginController().logout();
     }
 
     public void selectMaintainSchedule() {
-        ControlFactory.getReviewSelectScheduleController().startUseCase(this.username);
+        ControlFactory.getReviewSelectScheduleController().startUseCase(Constant.loggedUserName);
     }
 
     public void selectMaintainUser(){
@@ -59,6 +59,6 @@ public class MainController {
 
     // This is a dummy operation to test the invocation of Review Select Radio Program use case.
     public void selectedProgram(RadioProgram rpSelected) {
-        startUseCase(username);
+        startUseCase(Constant.loggedUserName);
     }
 }
