@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
 import android.content.Intent;
@@ -18,7 +21,7 @@ public class ReviewSelectScheduleProgramController {
     private ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen;
 
     /**
-     * TODO - why is this used?
+     * Get actionType param
      * @return
      */
     public int getActionType() {
@@ -26,7 +29,7 @@ public class ReviewSelectScheduleProgramController {
     }
 
     /**
-     * TODO - why is this used?
+     * Set actionType param
      * @param actionType
      */
     public void setActionType(int actionType) {
@@ -70,9 +73,11 @@ public class ReviewSelectScheduleProgramController {
         MainController.displayScreen(intent);
     }
 
-    /**
-     * TODO - why is this used?
-     * @param actionType
+
+    /*
+     * Redirects to a specific schedule screen based on whether EDIT, COPY or MODIFY is selected in
+     * ProgramSchedule Screen
+     * @param actionType-specifies the type of action being requested from screen
      */
     public void setMaintainSchedule(int actionType, ProgramSlot programSlot){
 
