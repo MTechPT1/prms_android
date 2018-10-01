@@ -45,7 +45,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     private void initView(){
         maintainuserListView = (ListView) findViewById(R.id.maintainuser_list);
         User user = ControlFactory.getMaintainUserController().getUser();
-        adapter = new MaintainUserAdapter(this,user);
+        adapter = new MaintainUserAdapter(this,user,actionType);
         maintainuserListView.setOnItemClickListener(this);
         maintainuserListView.setAdapter(adapter);
 
@@ -101,8 +101,8 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
 
     private boolean textValidation(){
          boolean value = false;
-        if (adapter.getUser().getUserName()==null||adapter.getUser().getJoinDate()==null||adapter.getUser().getPassWord()==null||adapter.getUser().getUserName().length() == 0||adapter.getUser().getJoinDate().length()==0||adapter.getUser().getJoinDate().length()==0){
-            Toast.makeText(MaintainUserScreen.this, "Please check the user name, password and join date, it cannot be empty", Toast.LENGTH_SHORT).show();
+        if (adapter.getUser().getUserId()==null||adapter.getUser().getUserName()==null||adapter.getUser().getJoinDate()==null||adapter.getUser().getPassWord()==null||adapter.getUser().getJoinDate().length()==0||adapter.getUser().getUserName().length() == 0||adapter.getUser().getJoinDate().length()==0||adapter.getUser().getJoinDate().length()==0){
+            Toast.makeText(MaintainUserScreen.this, "Please check the user account, user name, password and join date, it cannot be empty", Toast.LENGTH_SHORT).show();
         }else if (!adapter.getUser().isProducer()&&!adapter.getUser().isPresenter()){
             Toast.makeText(MaintainUserScreen.this, "Please set a role for user", Toast.LENGTH_SHORT).show();
         }else {
