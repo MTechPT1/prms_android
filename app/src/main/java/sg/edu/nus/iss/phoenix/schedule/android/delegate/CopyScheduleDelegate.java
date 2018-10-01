@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -17,6 +20,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.controller.MaintainScheduleContro
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
 import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_SCHEDULE_PROGRAM;
+import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.getWeekId;
 
 public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> {
 
@@ -48,15 +52,22 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
             return new Boolean(false);
         }
 
+        int duration =1;
+        if(params[0] != null && params[0].getDuration() != 0){
+            duration = params[0].getDuration();
+        }
+
         JSONObject json = new JSONObject();
         try {
+
+
             json.put("assignedBy", params[0].getAssignedBy());
-            json.put("duration", params[0].getDuration());
-            json.put("startTime", params[0].getStartTime());
+            json.put("duration", duration);
+            json.put("startDate", params[0].getStartTime());
             json.put("programName", params[0].getRadioProgram().getRadioProgramName());
             json.put("presenterId", params[0].getPresenter().getUserId());
             json.put("producerId", params[0].getProducer().getUserId());
-            json.put("weekId", params[0].getWeekId());
+            json.put("weekId", getWeekId(params[0].getStartTime()));
         } catch (JSONException e) {
             Log.v(TAG, e.getMessage());
         }
@@ -76,7 +87,7 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
             success = true;
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
             if (dos != null) {

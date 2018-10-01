@@ -1,3 +1,6 @@
+/**
+ *@author: neelima nair
+ */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -33,16 +36,16 @@ public class DeleteScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
     @Override
     protected Boolean doInBackground(ProgramSlot... params) {
         // Encode the name of radio program in case of the presence of special characters.
-        String name = null;
+        String programSlotId = null;
         try {
-            name = URLEncoder.encode(String.valueOf(params[0].getId()), "UTF-8");
+            programSlotId = URLEncoder.encode(String.valueOf(params[0].getId()), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             Log.v(TAG, e.getMessage());
             return new Boolean(false);
         }
         Uri builtUri = Uri.parse(PRMS_BASE_URL_SCHEDULE_PROGRAM).buildUpon().build();
         builtUri = Uri.withAppendedPath(builtUri,"delete").buildUpon().build();
-        builtUri = Uri.withAppendedPath(builtUri, name).buildUpon().build();
+        builtUri = Uri.withAppendedPath(builtUri, programSlotId).buildUpon().build();
         Log.v(TAG, builtUri.toString());
         URL url = null;
         try {
@@ -64,7 +67,7 @@ public class DeleteScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
             System.out.println(httpURLConnection.getResponseCode());
             Log.v(TAG, "Http DELETE response " + httpURLConnection.getResponseCode());
             success = true;
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
             if (httpURLConnection != null) httpURLConnection.disconnect();

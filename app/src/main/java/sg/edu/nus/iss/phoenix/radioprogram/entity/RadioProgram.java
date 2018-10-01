@@ -8,6 +8,10 @@ public class RadioProgram implements Serializable {
     private String radioProgramDescription;
     private String radioProgramDuration;
 
+    public RadioProgram() {
+
+    }
+
     public RadioProgram(String radioProgramName, String radioProgramDescription, String radioProgramDuration) {
         this.radioProgramName = radioProgramName;
         this.radioProgramDescription = radioProgramDescription;
@@ -16,6 +20,10 @@ public class RadioProgram implements Serializable {
 
     public String getRadioProgramName() {
         return radioProgramName;
+    }
+
+    public void setRadioProgramName(String radioProgramName) {
+        this.radioProgramName = radioProgramName;
     }
 
     public String getRadioProgramDescription() {

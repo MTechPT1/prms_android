@@ -50,7 +50,7 @@ public class MainController {
     }
 
     public void selectMaintainSchedule() {
-        ControlFactory.getReviewSelectScheduleController().startUseCase();
+        ControlFactory.getReviewSelectScheduleController().startUseCase(this.username);
     }
 
     public void selectMaintainUser(){

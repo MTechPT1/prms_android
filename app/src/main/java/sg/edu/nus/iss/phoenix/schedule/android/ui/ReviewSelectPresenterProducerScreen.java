@@ -37,7 +37,7 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
         setupView();
 
-        test();
+        //test();
     }
 
     @Override
