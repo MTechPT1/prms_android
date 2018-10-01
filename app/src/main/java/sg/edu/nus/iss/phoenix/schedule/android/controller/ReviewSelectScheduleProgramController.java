@@ -93,4 +93,13 @@ public class ReviewSelectScheduleProgramController {
 
         MainController.displayScreen(intent);
     }
+
+    /**
+     * Displays the error message in the toast
+     * @param message
+     */
+    public void displayError(String message) {
+        // Go back to ProgramList screen with refreshed programs.
+
+    }
 }

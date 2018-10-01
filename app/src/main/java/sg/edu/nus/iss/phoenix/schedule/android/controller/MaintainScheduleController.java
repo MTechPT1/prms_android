@@ -58,6 +58,15 @@ public class MaintainScheduleController {
     }
 
     /**
+     * Displays the error message in the toast
+     * @param message
+     */
+    public void displayError(String message) {
+        // Go back to ProgramList screen with refreshed programs.
+
+    }
+
+    /**
      * Invoked by the ScheduleScreen to delete the program slot from backend
      * @param programSlot
      */
