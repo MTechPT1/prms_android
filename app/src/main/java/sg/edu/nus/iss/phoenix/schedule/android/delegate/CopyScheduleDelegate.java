@@ -86,7 +86,12 @@ public class CopyScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean> 
             dos.writeUTF(json.toString());
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
-            success = true;
+            if(httpURLConnection.getResponseCode() != 200 && httpURLConnection.getResponseCode() !=204){
+                maintainScheduleController.displayError(httpURLConnection.getResponseMessage());
+                success = false;
+            }else{
+                success = true;
+            }
         } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {

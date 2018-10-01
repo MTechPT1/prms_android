@@ -66,7 +66,12 @@ public class DeleteScheduleDelegate extends AsyncTask<ProgramSlot, Void, Boolean
             httpURLConnection.setUseCaches (false);
             System.out.println(httpURLConnection.getResponseCode());
             Log.v(TAG, "Http DELETE response " + httpURLConnection.getResponseCode());
-            success = true;
+            if(httpURLConnection.getResponseCode() != 200 && httpURLConnection.getResponseCode() !=204){
+                maintainScheduleController.displayError(httpURLConnection.getResponseMessage());
+                success = false;
+            }else{
+                success = true;
+            }
         } catch (Exception exception) {
             Log.v(TAG, exception.getMessage());
         } finally {

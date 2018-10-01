@@ -66,6 +66,9 @@ public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
             if (scanner.hasNext()) jsonResp = scanner.next();
+            if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() !=204){
+                reviewSelectScheduleProgramController.displayError(urlConnection.getResponseMessage());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
