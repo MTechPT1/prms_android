@@ -220,9 +220,6 @@ public class ScheduleScreen extends AppCompatActivity {
         textView_producer = (TextView) findViewById(R.id.textView_producer);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
 
-        Log.i("Tag", "getPresenter: "+programSlot.getPresenter().getUserId().toString());
-        Log.i("Tag", "getProducer: "+programSlot.getProducer().getUserId().toString());
-
         if (programSlot != null) {
             if (programSlot.getStartTime() != null) {
                 textView_timeslot.setText(programSlot.getStartTime().toString());
@@ -322,10 +319,11 @@ public class ScheduleScreen extends AppCompatActivity {
 
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
-
+            calendar.set(Calendar.SECOND, 0);
+            
             Log.i("Tag",calendar.getTime().toString());
 
-            String myFormat = "HH:mm"; //In which you need put here
+            String myFormat = "HH:mm:ss"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
 //            if (!isNewDateForCopy) {
