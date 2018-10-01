@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
-    private String loggedUserName;
 
     //Variable for UI
     private ScheduleProgramAdapter mSPAdapter;
@@ -55,9 +55,10 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_schedule_program);
 
-
         Intent intent = getIntent();
-        this.loggedUserName = intent.getStringExtra(Constant.LOGGEDUSERNAME);
+        if(intent.getStringExtra(Constant.ERRORMESSAGE)!=null){
+            displayError(intent.getStringExtra(Constant.ERRORMESSAGE));
+        }
 
         setupFloatingButton();
         setupScheduleProgramAdapter();
@@ -167,12 +168,16 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         }
     }
 
+    public void displayError(String errorMessage) {
+        Toast.makeText(ReviewSelectScheduleProgramScreen.this, errorMessage, Toast.LENGTH_LONG).show();
+    }
+
     private void setupFloatingButton() {
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE, loggedUserName);
+                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE);
             }
         });
     }

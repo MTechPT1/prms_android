@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -31,17 +34,16 @@ public class ScheduleScreen extends AppCompatActivity {
 
     //Variable for UI
     private ImageView button_timeslot;
-    private ImageView button_Newtimeslot;
     private ImageView button_presenter;
     private ImageView button_producer;
     private ImageView button_radioProgram;
-    private CardView cardView_NewTime;
+    private ImageView button_radioProgram_duration;
     private Button button_schedule_procced;
     private TextView textView_timeslot;
-    private TextView textView_timeslotForCopy;
     private TextView textView_presenter;
     private TextView textView_producer;
     private TextView textView_radioprogram;
+    private TextView textView_radioprogram_durationValue;
 
     //Variable for Calender
     private Calendar calendar = Calendar.getInstance();
@@ -50,14 +52,11 @@ public class ScheduleScreen extends AppCompatActivity {
     private SimpleDateFormat sdf;
     private String selecteddate;
     private String selectedTime;
-    private String selecteddate_copy_to;
-    private String selectedTime_copy_to;
+    private int selectedDuration = 0;
     private static int scheduleMode;
     private User selectedPresenter;
     private User selectedProducer;
     private static ProgramSlot programSlot;
-    //private boolean isNewDateForCopy = false;
-    private String loggedUserName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,6 @@ public class ScheduleScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         scheduleMode = intent.getIntExtra(Constant.SCHEDULEMODE, 0);
-        loggedUserName = intent.getStringExtra(Constant.LOGGEDUSERNAME);
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             programSlot = (ProgramSlot) getIntent().getSerializableExtra(Constant.PRORGRAMSLOT); //Obtaining data
@@ -89,17 +87,16 @@ public class ScheduleScreen extends AppCompatActivity {
     }
 
     private void setupView() {
-        cardView_NewTime = (CardView) findViewById(R.id.CardView_NewTime);
         button_timeslot = (ImageView) findViewById(R.id.button_timeslot);
         button_presenter = (ImageView) findViewById(R.id.button_presenter);
         button_producer = (ImageView) findViewById(R.id.button_producer);
         button_radioProgram = (ImageView) findViewById(R.id.button_radioProgram);
+        button_radioProgram_duration = (ImageView) findViewById(R.id.button_radioProgram_duration);
         button_schedule_procced = (Button) findViewById(R.id.button_schedule_procced);
         textView_timeslot = (TextView) findViewById(R.id.textView_timeslot);
-        textView_timeslotForCopy = (TextView) findViewById(R.id.textView_Newtimeslot);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
+        textView_radioprogram_durationValue = (TextView) findViewById(R.id.textView_radioprogram_durationValue);
 
-        cardView_NewTime.setVisibility(View.GONE);
         button_timeslot.setVisibility(View.VISIBLE);
         button_presenter.setVisibility(View.VISIBLE);
         button_producer.setVisibility(View.VISIBLE);
@@ -133,6 +130,20 @@ public class ScheduleScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ControlFactory.getReviewSelectProgramController().startUseCase(ScheduleScreen.this);
+            }
+        });
+
+        button_radioProgram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ControlFactory.getReviewSelectProgramController().startUseCase(ScheduleScreen.this);
+            }
+        });
+
+        button_radioProgram_duration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDurationDialog();
             }
         });
 
@@ -191,6 +202,7 @@ public class ScheduleScreen extends AppCompatActivity {
                 button_presenter.setVisibility(View.INVISIBLE);
                 button_producer.setVisibility(View.INVISIBLE);
                 button_radioProgram.setVisibility(View.INVISIBLE);
+                button_radioProgram_duration.setVisibility(View.INVISIBLE);
 
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -202,6 +214,54 @@ public class ScheduleScreen extends AppCompatActivity {
                 });
                 break;
         }
+
+    }
+
+
+    public void showDurationDialog() {
+        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(ScheduleScreen.this);
+        alertDialog.setTitle("Enter Duration:");
+
+        final EditText input = new EditText(ScheduleScreen.this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+        input.setSingleLine(true);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        lp.setMargins(8,2,8,2);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+
+        alertDialog.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (!input.getText().toString().isEmpty()) {
+                            selectedDuration = Integer.valueOf(input.getText().toString());
+                            if (selectedDuration != 0) {
+                                if (programSlot == null) {
+                                    programSlot = new ProgramSlot();
+                                }
+                                programSlot.setDuration(selectedDuration);
+                                updateUI();
+                                dialog.cancel();
+                            }
+                        } else {
+                            input.setError("Invalid input");
+                        }
+
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
 
     }
 
@@ -221,6 +281,7 @@ public class ScheduleScreen extends AppCompatActivity {
         textView_presenter = (TextView) findViewById(R.id.textView_presenter);
         textView_producer = (TextView) findViewById(R.id.textView_producer);
         textView_radioprogram = (TextView) findViewById(R.id.textView_radioprogram);
+        textView_radioprogram_durationValue = (TextView) findViewById(R.id.textView_radioprogram_durationValue);
 
         if (programSlot != null) {
             if (programSlot.getStartTime() != null) {
@@ -237,6 +298,9 @@ public class ScheduleScreen extends AppCompatActivity {
             if (programSlot.getRadioProgram() != null) {
                 textView_radioprogram.setText(programSlot.getRadioProgram().getRadioProgramName());
             }
+            if (programSlot.getDuration() != 0) {
+                textView_radioprogram_durationValue.setText(String.valueOf(programSlot.getDuration()));
+            }
         }
 
     }
@@ -248,7 +312,7 @@ public class ScheduleScreen extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        programSlot.setAssignedBy(loggedUserName);
+                        programSlot.setAssignedBy(Constant.loggedUserName);
 
                         switch (scheduleMode) {
                             case Constant.CREATE:
@@ -412,6 +476,14 @@ public class ScheduleScreen extends AppCompatActivity {
                 return false;
             } else {
                 textView_radioprogram.setError(null);
+            }
+
+            if (textView_radioprogram_durationValue.getText().equals("")) {
+                textView_radioprogram_durationValue.requestFocus();
+                textView_radioprogram_durationValue.setError("No data");
+                return false;
+            } else {
+                textView_radioprogram_durationValue.setError(null);
             }
         }
 

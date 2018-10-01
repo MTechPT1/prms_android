@@ -1,5 +1,5 @@
 /**
- *@author: neelima nair
+ * @author: neelima nair
  */
 package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
@@ -16,8 +16,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
 public class ReviewSelectScheduleProgramController {
 
-     private int actionType;
-
+    private int actionType;
     private ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen;
 
     /**
@@ -39,11 +38,10 @@ public class ReviewSelectScheduleProgramController {
     /**
      * Displays the main screen again
      */
-    public void startUseCase(String username){
-         Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
-         intent.putExtra(Constant.LOGGEDUSERNAME,username);
-         MainController.displayScreen(intent);
-     }
+    public void startUseCase(String username) {
+        Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
+        MainController.displayScreen(intent);
+    }
 
     /**
      * Invoked from ReviewSelectScheduleProgramScreen to fetch the list of program slots
@@ -51,7 +49,7 @@ public class ReviewSelectScheduleProgramController {
      * @param reviewSelectScheduleProgramScreen
      * @param weekId
      */
-    public void  retrieveScheduleProgram(ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen, String weekId, String year){
+    public void retrieveScheduleProgram(ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen, String weekId, String year) {
         this.reviewSelectScheduleProgramScreen = reviewSelectScheduleProgramScreen;
         new RetrieveScheduleDelegate(this).execute(weekId, year);
     }
@@ -60,7 +58,7 @@ public class ReviewSelectScheduleProgramController {
      * This is invoked from the delegate with the retrieved program slots
      * @param scheduleProgram
      */
-    public void displayScheduleProgram(ScheduleProgram scheduleProgram){
+    public void displayScheduleProgram(ScheduleProgram scheduleProgram) {
         reviewSelectScheduleProgramScreen.displayScheduleProgram(scheduleProgram);
     }
 
@@ -68,10 +66,9 @@ public class ReviewSelectScheduleProgramController {
      * TODO - why is this used?
      * @param actionType
      */
-    public void selectCreateSchedule(int actionType, String loggedUserName){
+    public void selectCreateSchedule(int actionType) {
         Intent intent = new Intent(MainController.getApp(), ScheduleScreen.class);
         intent.putExtra(Constant.SCHEDULEMODE, actionType);
-        intent.putExtra(Constant.LOGGEDUSERNAME, loggedUserName);
         MainController.displayScreen(intent);
     }
 
@@ -81,7 +78,7 @@ public class ReviewSelectScheduleProgramController {
      * ProgramSchedule Screen
      * @param actionType-specifies the type of action being requested from screen
      */
-    public void setMaintainSchedule(int actionType, ProgramSlot programSlot){
+    public void setMaintainSchedule(int actionType, ProgramSlot programSlot) {
 
         this.actionType = actionType;
         Intent intent = new Intent(MainController.getApp(), ScheduleScreen.class);
@@ -100,6 +97,6 @@ public class ReviewSelectScheduleProgramController {
      */
     public void displayError(String message) {
         // Go back to ProgramList screen with refreshed programs.
-
+        reviewSelectScheduleProgramScreen.displayError(message);
     }
 }
