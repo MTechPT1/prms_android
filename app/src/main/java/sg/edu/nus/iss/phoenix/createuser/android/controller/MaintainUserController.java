@@ -3,6 +3,7 @@ package sg.edu.nus.iss.phoenix.createuser.android.controller;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.PortUnreachableException;
@@ -113,16 +114,25 @@ public class MaintainUserController {
 
     public void userCreated(boolean success) {
         // Go back to ProgramList screen with refreshed programs.
+        if (!success){
+            Toast.makeText(maintainUserScreen, "User Creation failed", Toast.LENGTH_SHORT).show();
+        }
         startUsecase();
     }
 
     public void userDeleted(boolean success) {
         // Go back to ProgramList screen with refreshed programs.
+        if (!success){
+            Toast.makeText(maintainUserScreen, "User Deletion failed", Toast.LENGTH_SHORT).show();
+        }
         startUsecase();
     }
 
     public void userModified(boolean success) {
         // Go back to ProgramList screen with refreshed programs.
+        if (!success){
+            Toast.makeText(maintainUserScreen, "User Modification failed", Toast.LENGTH_SHORT).show();
+        }
         startUsecase();
     }
 }
