@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,6 +30,11 @@ import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
+/**
+ * <p><b>ScheduleScreen</b> UI of the schedule screen</p>
+ *
+ * @author: Wai Kin
+ */
 public class ScheduleScreen extends AppCompatActivity {
 
     //Variable for UI
@@ -60,7 +65,11 @@ public class ScheduleScreen extends AppCompatActivity {
     private User selectedProducer;
     private static ProgramSlot programSlot;
 
-
+    /**
+     * OnCreate() for Android AppCompact activity, getting the intent data and setting up the UI
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_schedule_screen);
@@ -76,18 +85,18 @@ public class ScheduleScreen extends AppCompatActivity {
         updateUI();
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-    }
-
+    /**
+     * onResume() for Android AppCompact activity, updating the UI when resume to the application
+     */
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
     }
 
+    /**
+     * Setting up the UI
+     */
     private void setupView() {
         button_timeslot = (ImageView) findViewById(R.id.button_timeslot);
         button_presenter = (ImageView) findViewById(R.id.button_presenter);
@@ -202,7 +211,9 @@ public class ScheduleScreen extends AppCompatActivity {
 
     }
 
-
+    /**
+     * To show the duration selection dialog
+     */
     public void showDurationDialog() {
 
         View view = getLayoutInflater().inflate(R.layout.item_duration, null);
@@ -252,7 +263,11 @@ public class ScheduleScreen extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Update the programslot with selected radio program
+     *
+     * @param rd selected radio program
+     */
     public void selectedRadioProgram(RadioProgram rd) {
         if (programSlot == null) {
             programSlot = new ProgramSlot();
@@ -263,6 +278,9 @@ public class ScheduleScreen extends AppCompatActivity {
         updateUI();
     }
 
+    /**
+     * Updating the UI
+     */
     private void updateUI() {
         textView_timeslot = (TextView) findViewById(R.id.textView_timeslot);
         textView_presenter = (TextView) findViewById(R.id.textView_presenter);
@@ -292,6 +310,11 @@ public class ScheduleScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Show the confirmation dialog
+     *
+     * @param string confirmation message
+     */
     private void ShowAlertDialog(String string) {
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ScheduleScreen.this);
@@ -303,19 +326,19 @@ public class ScheduleScreen extends AppCompatActivity {
 
                         switch (scheduleMode) {
                             case Constant.CREATE:
-                                ControlFactory.getMaintainScheduleController().createSchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().createSchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.MODIFY:
-                                ControlFactory.getMaintainScheduleController().modifySchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().modifySchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.COPY:
-                                ControlFactory.getMaintainScheduleController().copySchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().copySchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.DELETE:
-                                ControlFactory.getMaintainScheduleController().deleteSchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().deleteSchedule(programSlot, ScheduleScreen.this);
                                 break;
                         }
                     }
@@ -329,16 +352,22 @@ public class ScheduleScreen extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * To select new date
+     */
     private void selectNewTimeSlot() {
         showCalendar();
     }
 
-
+    /**
+     * Pop up the DatePickerDialog
+     */
     private void showCalendar() {
         new DatePickerDialog(ScheduleScreen.this, date, calendar
                 .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+
 
     final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -358,6 +387,9 @@ public class ScheduleScreen extends AppCompatActivity {
         }
     };
 
+    /**
+     * To select new time
+     */
     private void selecetNewTime() {
 
         final Calendar c = Calendar.getInstance();
@@ -390,7 +422,12 @@ public class ScheduleScreen extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * Update the programslot with selected presenter or produce
+     *
+     * @param role         presenter or producer
+     * @param selecteduser selected presenter or selected producer
+     */
     public void selectedPresenterProducer(int role, User selecteduser) {
         if (programSlot == null) {
             programSlot = new ProgramSlot();
@@ -409,6 +446,11 @@ public class ScheduleScreen extends AppCompatActivity {
         updateUI();
     }
 
+    /**
+     * To validate whether the editText is filled with data
+     *
+     * @return true if all data have filled in
+     */
     public boolean validation() {
 
         if (scheduleMode != Constant.DELETE) {
@@ -456,5 +498,13 @@ public class ScheduleScreen extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * To display the error message
+     *
+     * @param errorMessage
+     */
+    public void displayError(String errorMessage) {
+        Toast.makeText(ScheduleScreen.this, errorMessage, Toast.LENGTH_LONG).show();
+    }
 }
 
