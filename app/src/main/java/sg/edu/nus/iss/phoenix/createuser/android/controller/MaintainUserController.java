@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import sg.edu.nus.iss.phoenix.Constant;
+import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.CreateUserDelegate;
 import sg.edu.nus.iss.phoenix.createuser.android.delegate.DeleteUserDelegate;
@@ -65,6 +66,7 @@ public class MaintainUserController {
 
     public void onDisplayUserList(UserListScreen userListScreen) {
         this.userListScreen = userListScreen;
+        userListScreen.showLoadingIndicator();
         new RetrieveUsersDelegate(this).execute("ALL");
     }
 
@@ -75,6 +77,7 @@ public class MaintainUserController {
 
     public void DisplayUserListScreen(ArrayList<User> userList) {
         this.userListScreen.displayAllUsers(userList);
+        userListScreen.hideLoadingIndicator();
     }
 
     public void DisplayPresenterProducerScreen(ArrayList<User> userList) {
@@ -102,22 +105,26 @@ public class MaintainUserController {
 
 
     public void processCreateUser(User user) {
+        maintainUserScreen.showLoadingIndicator();
         new CreateUserDelegate(this).execute(user);
 
 
     }
 
     public void processDeleteUser(User user) {
+        maintainUserScreen.showLoadingIndicator();
         new DeleteUserDelegate(this).execute(user);
 
     }
 
     public void processModifyUser(User user) {
+        maintainUserScreen.showLoadingIndicator();
         new ModifyUserDelegate(this).execute(user);
     }
 
     public void userCreated(boolean success,String errorMsg) {
         // Go back to ProgramList screen with refreshed programs.
+        maintainUserScreen.hideLoadingIndicator();
         if (!success){
             Toast.makeText(maintainUserScreen, errorMsg, Toast.LENGTH_SHORT).show();
         }else {
@@ -127,6 +134,7 @@ public class MaintainUserController {
 
     public void userDeleted(boolean success,String errorMsg) {
         // Go back to ProgramList screen with refreshed programs.
+        maintainUserScreen.hideLoadingIndicator();
         if (!success){
             Toast.makeText(maintainUserScreen, errorMsg, Toast.LENGTH_SHORT).show();
         }else{
@@ -136,10 +144,16 @@ public class MaintainUserController {
 
     public void userModified(boolean success, String errorMesg) {
         // Go back to ProgramList screen with refreshed programs.
+        maintainUserScreen.hideLoadingIndicator();
         if (!success){
             Toast.makeText(maintainUserScreen, "User Modification failed", Toast.LENGTH_SHORT).show();
         }else {
             startUsecase();
         }
+    }
+
+
+    public void maintainUser() {
+        ControlFactory.getMainController().maintainUser();
     }
 }
