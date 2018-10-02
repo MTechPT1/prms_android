@@ -1,6 +1,3 @@
-/**
- *@author: neelima nair
- */
 package sg.edu.nus.iss.phoenix.schedule.android.delegate;
 
 import android.net.Uri;
@@ -28,6 +25,13 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 
 import static sg.edu.nus.iss.phoenix.core.android.delegate.DelegateHelper.PRMS_BASE_URL_SCHEDULE_PROGRAM;
 
+/**
+ * <p><b>RetrieveScheduleDelegate</b> helps in retrieving the program slots from the backend by
+ * invoking a restful web services api. This delegate is in turn invoked from the
+ * <b>{@link ReviewSelectScheduleProgramController}</b> class.</p>
+ *
+ *@author: neelima nair
+ */
 public class RetrieveScheduleDelegate extends AsyncTask<String, Void, String> {
 
     private static final String TAG = RetrieveScheduleDelegate.class.getName();

@@ -1,6 +1,3 @@
-/**
- * @author: neelima nair
- */
 package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
 import android.content.Intent;
@@ -14,22 +11,28 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ReviewSelectScheduleProgramScreen;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
+/**
+ * <p><b>ReviewSelectScheduleProgramController</b> controls the flow between the schedule
+ * screen to the backend for retrieving the </p>
+ *
+ *@author: neelima nair
+ */
 public class ReviewSelectScheduleProgramController {
 
     private int actionType;
     private ReviewSelectScheduleProgramScreen reviewSelectScheduleProgramScreen;
 
     /**
-     * Get actionType param
-     * @return
+     * Getter method for actionType param
+     * @return int
      */
     public int getActionType() {
         return actionType;
     }
 
     /**
-     * Set actionType param
-     * @param actionType
+     * Setter method for actionType param
+     * @param actionType int
      */
     public void setActionType(int actionType) {
         this.actionType = actionType;
@@ -37,6 +40,7 @@ public class ReviewSelectScheduleProgramController {
 
     /**
      * Displays the main screen again
+     * @param username String
      */
     public void startUseCase(String username) {
         Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
@@ -63,7 +67,8 @@ public class ReviewSelectScheduleProgramController {
     }
 
     /**
-     * TODO - why is this used?
+     * This method is invoked when the create option is selected from the schedule
+     * screen.
      * @param actionType
      */
     public void selectCreateSchedule(int actionType) {
@@ -96,7 +101,6 @@ public class ReviewSelectScheduleProgramController {
      * @param message
      */
     public void displayError(String message) {
-        // Go back to ProgramList screen with refreshed programs.
         reviewSelectScheduleProgramScreen.displayError(message);
     }
 }
