@@ -21,7 +21,7 @@ import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 /**
  * <p><b>ReviewSelectPresenterProducerScreen</b> UI of the presenter producer screen</p>
  *
- *@author: Wai Kin
+ * @author: Wai Kin
  */
 public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
@@ -36,6 +36,7 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
     /**
      * OnCreate() for Android AppCompact activity, getting the intent data and setting up the UI
+     *
      * @param savedInstanceState
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,8 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
     /**
      * Update the UI with selected User
-     * @param role presenter or producer
+     *
+     * @param role     presenter or producer
      * @param userName selected name of presenter or producer
      */
     private void updateUserName(int role, String userName) {
@@ -106,6 +108,7 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
     /**
      * To show the user lists
+     *
      * @param users list of users
      */
     public void AllUsersRetrieved(ArrayList<User> users) {
@@ -114,13 +117,14 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
     /**
      * Setting up the listView
+     *
      * @param users list of users
      */
     public void showUser(ArrayList<User> users) {
 
         //filter the list of presenter or producer
         ArrayList<User> users_filtered = new ArrayList<User>();
-        for(User u: users){
+        for (User u : users) {
             if ((userRole == Constant.PRESENTER) && (u.isPresenter())) {
                 users_filtered.add(u);
             } else if ((userRole == Constant.PRODUCER) && (u.isProducer())) {

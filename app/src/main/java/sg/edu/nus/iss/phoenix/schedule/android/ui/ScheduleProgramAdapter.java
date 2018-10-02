@@ -22,7 +22,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 /**
  * <p><b>ScheduleProgramAdapter</b> Adapater of the ProgramSlot</p>
  *
- *@author: Wai Kin
+ * @author: Wai Kin
  */
 public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
     private Context context;
@@ -32,9 +32,10 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
 
     /**
      * Constructor of the ScheduleProgramAdapter
-     * @param context context
+     *
+     * @param context     context
      * @param programSlot programSlot to be display
-     * @param ms Listenner
+     * @param ms          Listenner
      */
     public ScheduleProgramAdapter(@NonNull Context context, ArrayList<ProgramSlot> programSlot, ScheduleProgramAdapter.ModifyScheduleListener ms) {
         super(context, 0, programSlot);
@@ -45,9 +46,10 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
 
     /**
      * getView() for ArrayAdapter
-     * @param position position in the list
+     *
+     * @param position    position in the list
      * @param convertView view
-     * @param parent viewGroup
+     * @param parent      viewGroup
      * @return
      */
     @NonNull
@@ -72,8 +74,9 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
 
     /**
      * To bind the option button
+     *
      * @param convertview view
-     * @param position position in the list
+     * @param position    position in the list
      */
     private void addButtonAction(final View convertview, final int position) {
         ImageButton optionBtn = (ImageButton) convertview.findViewById(R.id.optionBtn);
@@ -89,7 +92,8 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
 
     /**
      * To show the option buttons
-     * @param v view
+     *
+     * @param v        view
      * @param position position in the list
      */
     private void addListOfOptionButtons(View v, final int position) {

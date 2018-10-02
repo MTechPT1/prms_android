@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * <p><b>ScheduleProgram</b> Entity of the Schedule Program</p>
  *
- *@author: Wai Kin
+ * @author: Wai Kin
  */
 public class ScheduleProgram {
 

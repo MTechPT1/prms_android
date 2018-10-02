@@ -32,7 +32,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 /**
  * <p><b>ScheduleScreen</b> UI of the schedule screen</p>
  *
- *@author: Wai Kin
+ * @author: Wai Kin
  */
 public class ScheduleScreen extends AppCompatActivity {
 
@@ -66,6 +66,7 @@ public class ScheduleScreen extends AppCompatActivity {
 
     /**
      * OnCreate() for Android AppCompact activity, getting the intent data and setting up the UI
+     *
      * @param savedInstanceState
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,6 +264,7 @@ public class ScheduleScreen extends AppCompatActivity {
 
     /**
      * Update the programslot with selected radio program
+     *
      * @param rd selected radio program
      */
     public void selectedRadioProgram(RadioProgram rd) {
@@ -309,6 +311,7 @@ public class ScheduleScreen extends AppCompatActivity {
 
     /**
      * Show the confirmation dialog
+     *
      * @param string confirmation message
      */
     private void ShowAlertDialog(String string) {
@@ -420,7 +423,8 @@ public class ScheduleScreen extends AppCompatActivity {
 
     /**
      * Update the programslot with selected presenter or produce
-     * @param role presenter or producer
+     *
+     * @param role         presenter or producer
      * @param selecteduser selected presenter or selected producer
      */
     public void selectedPresenterProducer(int role, User selecteduser) {
@@ -443,6 +447,7 @@ public class ScheduleScreen extends AppCompatActivity {
 
     /**
      * To validate whether the editText is filled with data
+     *
      * @return true if all data have filled in
      */
     public boolean validation() {

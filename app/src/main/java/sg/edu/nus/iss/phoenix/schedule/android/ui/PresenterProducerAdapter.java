@@ -17,7 +17,7 @@ import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 /**
  * <p><b>PresenterProducerAdapter</b> Adapater of the Users</p>
  *
- *@author: Wai Kin
+ * @author: Wai Kin
  */
 public class PresenterProducerAdapter extends ArrayAdapter<User> {
     private Context context;
