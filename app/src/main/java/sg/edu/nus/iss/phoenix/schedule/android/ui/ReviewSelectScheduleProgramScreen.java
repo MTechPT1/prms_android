@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,8 +22,6 @@ import java.util.Locale;
 import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
-import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
-import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.RetrieveScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
@@ -30,7 +29,6 @@ import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();
-    private String loggedUserName;
 
     //Variable for UI
     private ScheduleProgramAdapter mSPAdapter;
@@ -55,9 +53,10 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_schedule_program);
 
-
         Intent intent = getIntent();
-        this.loggedUserName = intent.getStringExtra(Constant.LOGGEDUSERNAME);
+        if(intent.getStringExtra(Constant.ERRORMESSAGE)!=null){
+            displayError(intent.getStringExtra(Constant.ERRORMESSAGE));
+        }
 
         setupFloatingButton();
         setupScheduleProgramAdapter();
@@ -96,33 +95,6 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         this.finish();
     }
 
-    private void test() {
-
-        //Testing Dummy schedules
-        RadioProgram rp1 = new RadioProgram("Symphony92.4", "Symphony", "30");
-        RadioProgram rp2 = new RadioProgram("Yes93.3", "Best", "30");
-        User presenter = new User();
-        presenter.setProducer(true);
-        presenter.setPresenter(true);
-        presenter.setUserId("1");
-        presenter.setUserName("WK");
-        presenter.setJoinDate("1 Jan");
-        User producer = new User();
-        producer.setProducer(true);
-        producer.setPresenter(true);
-        producer.setUserId("1");
-        producer.setUserName("WK");
-        producer.setJoinDate("1 Jan");
-        ProgramSlot ps = new ProgramSlot(1, rp1, presenter, producer, 10, "WK", "1200", 1);
-        ProgramSlot ps2 = new ProgramSlot(2, rp2, presenter, producer, 20, "WK2", "1200", 2);
-        ArrayList<ProgramSlot> pslist = new ArrayList<>();
-        pslist.add(ps);
-        pslist.add(ps2);
-        ScheduleProgram schedulePrograms = new ScheduleProgram(pslist);
-
-        displayScheduleProgram(schedulePrograms);
-    }
-
     private void showCalendar() {
         new DatePickerDialog(ReviewSelectScheduleProgramScreen.this, date, calendar
                 .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -139,16 +111,14 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            weekId = calendar.get(Calendar.WEEK_OF_YEAR);
-            year = calendar.get(Calendar.YEAR);
+            ReviewSelectScheduleProgramScreen.this.weekId = calendar.get(Calendar.WEEK_OF_YEAR);
+            ReviewSelectScheduleProgramScreen.this.year = calendar.get(Calendar.YEAR);
 
             String myFormat = "yyyy-MM-dd"; //In which you need put here
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
             selecteddate = sdf.format(calendar.getTime());
             retrieveScheduleProgram();
 
-            //WK: Dummy Schedule
-            //test();
         }
 
     };
@@ -167,12 +137,16 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
         }
     }
 
+    public void displayError(String errorMessage) {
+        Toast.makeText(ReviewSelectScheduleProgramScreen.this, errorMessage, Toast.LENGTH_LONG).show();
+    }
+
     private void setupFloatingButton() {
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE, loggedUserName);
+                ControlFactory.getReviewSelectScheduleController().selectCreateSchedule(Constant.CREATE);
             }
         });
     }
@@ -183,7 +157,6 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
 
         mListView = (ListView) findViewById(R.id.maintain_schedule_list);
         mListView.setAdapter(mSPAdapter);
-
     }
 
     private void ShowAlertDialog(String string) {
@@ -194,17 +167,12 @@ public class ReviewSelectScheduleProgramScreen extends AppCompatActivity impleme
                         showCalendar();
                     }
                 });
-//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        ReviewSelectScheduleProgramScreen.this.finish();
-//                    }
-//                });
         builder.create();
         builder.show();
     }
 
     private void retrieveScheduleProgram() {
-        ControlFactory.getReviewSelectScheduleController().retrieveScheduleProgram(ReviewSelectScheduleProgramScreen.this, String.valueOf(weekId), String.valueOf(year));
+        ControlFactory.getReviewSelectScheduleController().retrieveScheduleProgram(ReviewSelectScheduleProgramScreen.this, String.valueOf(ReviewSelectScheduleProgramScreen.this.weekId), String.valueOf(ReviewSelectScheduleProgramScreen.this.year ));
     }
 
     @Override
