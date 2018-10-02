@@ -2,7 +2,6 @@ package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
 import android.content.Intent;
 
-import sg.edu.nus.iss.phoenix.Constant;
 import sg.edu.nus.iss.phoenix.core.android.controller.MainController;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.CopyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.CreateScheduleDelegate;
@@ -10,6 +9,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.delegate.DeleteScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.delegate.ModifyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ReviewSelectScheduleProgramScreen;
+import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
 
 /**
  * <p><b>MaintainScheduleController</b> controls the flow between the schedule
@@ -24,6 +24,7 @@ public class MaintainScheduleController {
     CopyScheduleDelegate copyDelegate;
     DeleteScheduleDelegate delDelegate;
     ProgramSlot programSlot = null;
+    private ScheduleScreen scheduleScreen;
 
     /**
      * Displays the main screen again
@@ -37,7 +38,8 @@ public class MaintainScheduleController {
      * Invoked by the ScheduleScreen to create the program slot from backend
      * @param programSlot
      */
-    public void createSchedule(ProgramSlot programSlot){
+    public void createSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+        this.scheduleScreen = scheduleScreen;
         createDelegate = new CreateScheduleDelegate(this);
         createDelegate.execute(programSlot);
     }
@@ -46,7 +48,8 @@ public class MaintainScheduleController {
      * Invoked by the ScheduleScreen to modify the program slot from backend
      * @param programSlot
      */
-    public void modifySchedule(ProgramSlot programSlot){
+    public void modifySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+        this.scheduleScreen = scheduleScreen;
         modifyDelegate = new ModifyScheduleDelegate(this);
         modifyDelegate.execute(programSlot);
     }
@@ -55,7 +58,8 @@ public class MaintainScheduleController {
      * Invoked by the ScheduleScreen to copy the program slot from backend
      * @param programSlot
      */
-    public void copySchedule(ProgramSlot programSlot){
+    public void copySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+        this.scheduleScreen = scheduleScreen;
         copyDelegate = new CopyScheduleDelegate(this);
         copyDelegate.execute(programSlot);
     }
@@ -66,16 +70,18 @@ public class MaintainScheduleController {
      */
     public void displayError(String message) {
         // Go back to ProgramList screen with refreshed programs.
-        Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
-        intent.putExtra(Constant.ERRORMESSAGE,message);
-        MainController.displayScreen(intent);
+//        Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
+//        intent.putExtra(Constant.ERRORMESSAGE,message);
+//        MainController.displayScreen(intent);
+        this.scheduleScreen.displayError(message);
     }
 
     /**
      * Invoked by the ScheduleScreen to delete the program slot from backend
      * @param programSlot
      */
-    public void deleteSchedule(ProgramSlot programSlot){
+    public void deleteSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+        this.scheduleScreen = scheduleScreen;
         delDelegate = new DeleteScheduleDelegate(this);
         delDelegate.execute(programSlot);
     }
