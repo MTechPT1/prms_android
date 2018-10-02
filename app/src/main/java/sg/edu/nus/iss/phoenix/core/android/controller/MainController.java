@@ -53,6 +53,10 @@ public class MainController {
         ControlFactory.getReviewSelectScheduleController().startUseCase(Constant.loggedUserName);
     }
 
+    public void maintainUser(){
+        startUseCase(Constant.loggedUserName);
+    }
+
     public void selectMaintainUser(){
         ControlFactory.getMaintainUserController().startUsecase();
     }

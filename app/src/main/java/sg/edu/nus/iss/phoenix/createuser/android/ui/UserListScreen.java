@@ -70,6 +70,10 @@ public class UserListScreen extends AppCompatActivity {
         mLoadingIndicator.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onBackPressed() {
+        ControlFactory.getMaintainUserController().maintainUser();
+    }
 }
 
 

@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import sg.edu.nus.iss.phoenix.R;
@@ -23,6 +25,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
     private static final String CREATE_BTN = "CREATE";
     private static final String MODIFY_BTN = "MODIFY";
     private static final String DELETE_BTN = "DELETE";
+    private LinearLayout mLoadingIndicator;
 
     private ListView maintainuserListView;
     private Button actionBtn;
@@ -48,7 +51,7 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
         adapter = new MaintainUserAdapter(this,user,actionType);
         maintainuserListView.setOnItemClickListener(this);
         maintainuserListView.setAdapter(adapter);
-
+        mLoadingIndicator = (LinearLayout) findViewById(R.id.loadingPanel_maintainuser);
         actionBtn = (Button) findViewById(R.id.confirm_button);
         switch (actionType){
             case TYPE_CREATE:{
@@ -117,4 +120,13 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
         adapter.didSelectCheckbox(position);
         adapter.notifyDataSetChanged();
     }
+
+    public void showLoadingIndicator() {
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoadingIndicator() {
+        mLoadingIndicator.setVisibility(View.GONE);
+    }
+
 }
