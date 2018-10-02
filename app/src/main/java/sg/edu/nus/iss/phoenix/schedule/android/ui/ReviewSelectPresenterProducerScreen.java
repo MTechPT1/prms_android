@@ -28,6 +28,11 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
     private PresenterProducerAdapter ppAdapter;
     private ListView ListViewPresenterProducer;
 
+
+    /**
+     * OnCreate() for Android AppCompact activity, getting the intent data and setting up the UI
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -36,10 +41,13 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         setContentView(R.layout.acitivity_presenter_producer_screen);
 
         setupView();
-
-        //test();
     }
 
+    /**
+     * onPostCreate() for Android AppCompact activity, getting the list of Users
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -47,27 +55,9 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         ControlFactory.getMaintainUserController().onDisplayPresenterProducerList(ReviewSelectPresenterProducerScreen.this);
     }
 
-    private void test(){
-        //Dummy for testing
-        users = new ArrayList<User>();
-        User wk = new User();
-        wk.setUserName("Alex");
-        wk.setPresenter(true);
-        wk.setProducer(true);
-        User wk2 = new User();
-        wk2.setUserName("William");
-        wk2.setPresenter(true);
-        wk2.setProducer(false);
-        User wk3 = new User();
-        wk3.setUserName("Robert");
-        wk3.setPresenter(true);
-        wk3.setProducer(true);
-        users.add(wk);
-        users.add(wk2);
-        users.add(wk3);
-        showUser(users);
-    }
-
+    /**
+     * Setting up the UI
+     */
     private void setupView() {
         CardView cvPresenter = (CardView) findViewById(R.id.cardView_Presenter);
         CardView cvProducer = (CardView) findViewById(R.id.cardView_Producer);
@@ -92,6 +82,11 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update the UI with selected User
+     * @param role presenter or producer
+     * @param userName selected name of presenter or producer
+     */
     private void updateUserName(int role, String userName) {
 
         TextView textView_review_presenter = (TextView) findViewById(R.id.textView_review_presenter);
@@ -104,14 +99,18 @@ public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * To show the user lists
+     * @param users list of users
+     */
     public void AllUsersRetrieved(ArrayList<User> users) {
         showUser(users);
     }
 
-    public void userRetrieved(User user) {
-
-    }
-
+    /**
+     * Setting up the listView
+     * @param users list of users
+     */
     public void showUser(ArrayList<User> users) {
 
         //filter the list of presenter or producer
