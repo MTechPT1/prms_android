@@ -15,7 +15,7 @@ import sg.edu.nus.iss.phoenix.schedule.android.ui.ScheduleScreen;
  * <p><b>MaintainScheduleController</b> controls the flow between the schedule
  * screen to the backend for creating, modifying, deleting and copying the program slots.</p>
  *
- *@author: neelima nair
+ * @author: neelima nair
  */
 public class MaintainScheduleController {
 
@@ -29,16 +29,17 @@ public class MaintainScheduleController {
     /**
      * Displays the main screen again
      */
-    public void startUseCase(){
-         Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
-         MainController.displayScreen(intent);
-     }
+    public void startUseCase() {
+        Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
+        MainController.displayScreen(intent);
+    }
 
     /**
      * Invoked by the ScheduleScreen to create the program slot from backend
+     *
      * @param programSlot
      */
-    public void createSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+    public void createSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen) {
         this.scheduleScreen = scheduleScreen;
         createDelegate = new CreateScheduleDelegate(this);
         createDelegate.execute(programSlot);
@@ -46,9 +47,10 @@ public class MaintainScheduleController {
 
     /**
      * Invoked by the ScheduleScreen to modify the program slot from backend
+     *
      * @param programSlot
      */
-    public void modifySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+    public void modifySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen) {
         this.scheduleScreen = scheduleScreen;
         modifyDelegate = new ModifyScheduleDelegate(this);
         modifyDelegate.execute(programSlot);
@@ -56,9 +58,10 @@ public class MaintainScheduleController {
 
     /**
      * Invoked by the ScheduleScreen to copy the program slot from backend
+     *
      * @param programSlot
      */
-    public void copySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+    public void copySchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen) {
         this.scheduleScreen = scheduleScreen;
         copyDelegate = new CopyScheduleDelegate(this);
         copyDelegate.execute(programSlot);
@@ -66,21 +69,20 @@ public class MaintainScheduleController {
 
     /**
      * Displays the error message in the toast
+     *
      * @param message
      */
     public void displayError(String message) {
         // Go back to ProgramList screen with refreshed programs.
-//        Intent intent = new Intent(MainController.getApp(), ReviewSelectScheduleProgramScreen.class);
-//        intent.putExtra(Constant.ERRORMESSAGE,message);
-//        MainController.displayScreen(intent);
         this.scheduleScreen.displayError(message);
     }
 
     /**
      * Invoked by the ScheduleScreen to delete the program slot from backend
+     *
      * @param programSlot
      */
-    public void deleteSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen){
+    public void deleteSchedule(ProgramSlot programSlot, ScheduleScreen scheduleScreen) {
         this.scheduleScreen = scheduleScreen;
         delDelegate = new DeleteScheduleDelegate(this);
         delDelegate.execute(programSlot);
@@ -88,6 +90,7 @@ public class MaintainScheduleController {
 
     /**
      * Called by the delegate after the onPostExecute
+     *
      * @param success
      */
     public void scheduleModified(boolean success) {
@@ -97,6 +100,7 @@ public class MaintainScheduleController {
 
     /**
      * Called by the delegate after the onPostExecute
+     *
      * @param success
      */
     public void scheduleCopied(boolean success) {
@@ -106,6 +110,7 @@ public class MaintainScheduleController {
 
     /**
      * Called by the delegate after the onPostExecute
+     *
      * @param success
      */
     public void scheduleCreated(boolean success) {
@@ -115,6 +120,7 @@ public class MaintainScheduleController {
 
     /**
      * Called by the delegate after the onPostExecute
+     *
      * @param success
      */
     public void scheduleDeleted(boolean success) {
