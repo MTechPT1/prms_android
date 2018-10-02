@@ -27,7 +27,7 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
 
     private static final String TAG = DeleteUserDelegate.class.getName();
     private MaintainUserController maintainUserController;
-
+    String errorMsg = "Delete User Failed";
     public DeleteUserDelegate(MaintainUserController maintainUserController){
         this.maintainUserController = maintainUserController;
     }
@@ -55,6 +55,7 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
         }
 
         boolean success = false;
+        String jsonResp = null;
         HttpURLConnection httpURLConnection = null;
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -65,7 +66,19 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
             httpURLConnection.setUseCaches (false);
             System.out.println(httpURLConnection.getResponseCode());
             Log.v(TAG, "Http DELETE response " + httpURLConnection.getResponseCode());
-            success = true;
+            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                success = true;
+            }else {
+                InputStream in = httpURLConnection.getErrorStream();
+                Log.v(TAG, "Http POST response content " + httpURLConnection.getErrorStream());
+                Scanner scanner = new Scanner(in);
+                scanner.useDelimiter("\\A");
+                if (scanner.hasNext()) {
+                    jsonResp = scanner.next();
+                    errorMsg = errorMessages(jsonResp);
+                }
+                success = false;
+            }
         } catch (IOException exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
@@ -75,8 +88,20 @@ public class DeleteUserDelegate extends AsyncTask <User, Void, Boolean>{
 
     }
 
+    private String errorMessages(String result){
+        String errorMessage =null;
+        try {
+            JSONObject reader = new JSONObject(result);
+            errorMessage = reader.getString("errorMessage");
+            //String status = reader.getString("httpStatus");
+        } catch (JSONException e) {
+            Log.v(TAG, e.getMessage());
+        }
+        return errorMessage;
+    }
+
     @Override
     protected void onPostExecute(Boolean result) {
-        this.maintainUserController.userCreated(result);
+        this.maintainUserController.userDeleted(result,errorMsg);
     }
 }

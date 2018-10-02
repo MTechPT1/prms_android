@@ -37,9 +37,9 @@ public class MaintainUserScreen extends AppCompatActivity implements AdapterView
         maintainUserController=ControlFactory.getMaintainUserController();
 
         actionType = ControlFactory.getMaintainUserController().getActionType();
-
         setContentView(R.layout.acitivity_maintainuser);
         initView();
+        maintainUserController.setMaintainUserScreen(MaintainUserScreen.this);
     }
 
     private void initView(){

@@ -54,6 +54,10 @@ public class MaintainUserController {
         return user;
     }
 
+    public void setMaintainUserScreen(MaintainUserScreen maintainUserScreen) {
+        this.maintainUserScreen = maintainUserScreen;
+    }
+
     public void startUsecase() {
         Intent intent = new Intent(MainController.getApp(), UserListScreen.class);
         MainController.displayScreen(intent);
@@ -112,27 +116,30 @@ public class MaintainUserController {
         new ModifyUserDelegate(this).execute(user);
     }
 
-    public void userCreated(boolean success) {
+    public void userCreated(boolean success,String errorMsg) {
         // Go back to ProgramList screen with refreshed programs.
         if (!success){
-            Toast.makeText(maintainUserScreen, "User Creation failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(maintainUserScreen, errorMsg, Toast.LENGTH_SHORT).show();
+        }else {
+            startUsecase();
         }
-        startUsecase();
     }
 
-    public void userDeleted(boolean success) {
+    public void userDeleted(boolean success,String errorMsg) {
         // Go back to ProgramList screen with refreshed programs.
         if (!success){
-            Toast.makeText(maintainUserScreen, "User Deletion failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(maintainUserScreen, errorMsg, Toast.LENGTH_SHORT).show();
+        }else{
+            startUsecase();
         }
-        startUsecase();
     }
 
-    public void userModified(boolean success) {
+    public void userModified(boolean success, String errorMesg) {
         // Go back to ProgramList screen with refreshed programs.
         if (!success){
             Toast.makeText(maintainUserScreen, "User Modification failed", Toast.LENGTH_SHORT).show();
+        }else {
+            startUsecase();
         }
-        startUsecase();
     }
 }
