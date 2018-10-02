@@ -65,6 +65,7 @@ public class MaintainUserController {
 
     public void onDisplayUserList(UserListScreen userListScreen) {
         this.userListScreen = userListScreen;
+        userListScreen.showLoadingIndicator();
         new RetrieveUsersDelegate(this).execute("ALL");
     }
 
@@ -75,6 +76,7 @@ public class MaintainUserController {
 
     public void DisplayUserListScreen(ArrayList<User> userList) {
         this.userListScreen.displayAllUsers(userList);
+        userListScreen.hideLoadingIndicator();
     }
 
     public void DisplayPresenterProducerScreen(ArrayList<User> userList) {
