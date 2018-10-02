@@ -26,6 +26,11 @@ import sg.edu.nus.iss.phoenix.schedule.android.delegate.RetrieveScheduleDelegate
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ScheduleProgram;
 
+/**
+ * <p><b>ReviewSelectScheduleProgramScreen</b> UI of the schedule program</p>
+ *
+ *@author: Wai Kin
+ */
 public class ReviewSelectScheduleProgramScreen extends AppCompatActivity implements ScheduleProgramAdapter.ModifyScheduleListener {
     // Tag for logging
     private static final String TAG = ReviewSelectScheduleProgramScreen.class.getName();

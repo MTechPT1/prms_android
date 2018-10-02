@@ -29,6 +29,11 @@ import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
+/**
+ * <p><b>ScheduleScreen</b> UI of the schedule screen</p>
+ *
+ *@author: Wai Kin
+ */
 public class ScheduleScreen extends AppCompatActivity {
 
     //Variable for UI

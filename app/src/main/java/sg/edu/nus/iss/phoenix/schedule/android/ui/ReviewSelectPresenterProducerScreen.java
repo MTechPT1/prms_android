@@ -18,6 +18,11 @@ import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.core.android.controller.ControlFactory;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
+/**
+ * <p><b>ReviewSelectPresenterProducerScreen</b> UI of the presenter producer screen</p>
+ *
+ *@author: Wai Kin
+ */
 public class ReviewSelectPresenterProducerScreen extends AppCompatActivity {
 
     private String userName;

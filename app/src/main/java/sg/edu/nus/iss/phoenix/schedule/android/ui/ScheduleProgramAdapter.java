@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
+/**
+ * <p><b>ScheduleProgramAdapter</b> Adapater of the ProgramSlot</p>
+ *
+ *@author: Wai Kin
+ */
 public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
     private Context context;
     ArrayList<ProgramSlot> programSlots;

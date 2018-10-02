@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 
+/**
+ * <p><b>PresenterProducerAdapter</b> Adapater of the Users</p>
+ *
+ *@author: Wai Kin
+ */
 public class PresenterProducerAdapter extends ArrayAdapter<User> {
     private Context context;
     ArrayList<User> users;
