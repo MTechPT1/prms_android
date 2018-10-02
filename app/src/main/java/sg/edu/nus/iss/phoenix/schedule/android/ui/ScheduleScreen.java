@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -325,19 +326,19 @@ public class ScheduleScreen extends AppCompatActivity {
 
                         switch (scheduleMode) {
                             case Constant.CREATE:
-                                ControlFactory.getMaintainScheduleController().createSchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().createSchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.MODIFY:
-                                ControlFactory.getMaintainScheduleController().modifySchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().modifySchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.COPY:
-                                ControlFactory.getMaintainScheduleController().copySchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().copySchedule(programSlot, ScheduleScreen.this);
                                 break;
 
                             case Constant.DELETE:
-                                ControlFactory.getMaintainScheduleController().deleteSchedule(programSlot);
+                                ControlFactory.getMaintainScheduleController().deleteSchedule(programSlot, ScheduleScreen.this);
                                 break;
                         }
                     }
@@ -497,5 +498,13 @@ public class ScheduleScreen extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * To display the error message
+     *
+     * @param errorMessage
+     */
+    public void displayError(String errorMessage) {
+        Toast.makeText(ScheduleScreen.this, errorMessage, Toast.LENGTH_LONG).show();
+    }
 }
 
