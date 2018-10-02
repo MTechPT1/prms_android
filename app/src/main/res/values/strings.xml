@@ -39,4 +39,13 @@
     <string name="action_delete">Delete</string>
     <string name="action_select">Select</string>
 
+    <string-array name="duration_array">
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>150</item>
+        <item>180</item>
+    </string-array>
+
 </resources>

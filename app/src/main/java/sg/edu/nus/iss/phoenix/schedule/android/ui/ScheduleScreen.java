@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.phoenix.schedule.android.ui;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -7,15 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -44,6 +44,8 @@ public class ScheduleScreen extends AppCompatActivity {
     private TextView textView_producer;
     private TextView textView_radioprogram;
     private TextView textView_radioprogram_durationValue;
+    private Spinner spinner;
+    private AlertDialog alert;
 
     //Variable for Calender
     private Calendar calendar = Calendar.getInstance();
@@ -107,7 +109,6 @@ public class ScheduleScreen extends AppCompatActivity {
         button_timeslot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //isNewDateForCopy = false;
                 selectNewTimeSlot();
             }
         });
@@ -171,22 +172,6 @@ public class ScheduleScreen extends AppCompatActivity {
                 break;
 
             case Constant.COPY:
-//                isNewDateForCopy = true;
-//                cardView_NewTime.setVisibility(View.VISIBLE);
-//                button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
-//                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        selectNewTimeSlot();
-//                    }
-//                });
-//                ImageView button_Newtimeslot = (ImageView) findViewById(R.id.button_Newtimeslot);
-//                button_Newtimeslot.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        selectNewTimeSlot();
-//                    }
-//                });
                 button_schedule_procced.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -219,49 +204,51 @@ public class ScheduleScreen extends AppCompatActivity {
 
 
     public void showDurationDialog() {
-        android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(ScheduleScreen.this);
-        alertDialog.setTitle("Enter Duration:");
 
-        final EditText input = new EditText(ScheduleScreen.this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
-        input.setSingleLine(true);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        lp.setMargins(8,2,8,2);
-        input.setLayoutParams(lp);
-        alertDialog.setView(input);
+        View view = getLayoutInflater().inflate(R.layout.item_duration, null);
+        final android.app.AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleScreen.this);
 
-        alertDialog.setPositiveButton("OK",
+        builder.setPositiveButton("OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-                        if (!input.getText().toString().isEmpty()) {
-                            selectedDuration = Integer.valueOf(input.getText().toString());
-                            if (selectedDuration != 0) {
-                                if (programSlot == null) {
-                                    programSlot = new ProgramSlot();
-                                }
-                                programSlot.setDuration(selectedDuration);
-                                updateUI();
-                                dialog.cancel();
+                        if (selectedDuration != 0) {
+                            if (programSlot == null) {
+                                programSlot = new ProgramSlot();
                             }
-                        } else {
-                            input.setError("Invalid input");
+                            programSlot.setDuration(selectedDuration);
+                            updateUI();
+                            dialog.cancel();
                         }
-
                     }
                 });
 
-        alertDialog.setNegativeButton("Cancel",
+        builder.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
 
-        alertDialog.show();
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ScheduleScreen.this,
+                android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.duration_array));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedDuration = Integer.valueOf(parent.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        builder.setView(view);
+        alert = builder.create();
+        alert.show();
 
     }
 
@@ -363,13 +350,9 @@ public class ScheduleScreen extends AppCompatActivity {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            String myFormat = "yyyy-MM-dd"; //In which you need put here
+            String myFormat = "yyyy-MM-dd";
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
-            //if (!isNewDateForCopy) {
             selecteddate = sdf.format(calendar.getTime());
-//            } else {
-//                selecteddate_copy_to = sdf.format(calendar.getTime());
-//            }
 
             selecetNewTime();
         }
@@ -392,33 +375,16 @@ public class ScheduleScreen extends AppCompatActivity {
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
 
-            Log.i("Tag", calendar.getTime().toString());
-
-            String myFormat = "HH:mm:ss"; //In which you need put here
+            String myFormat = "HH:mm:ss";
             sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
-//            if (!isNewDateForCopy) {
             selectedTime = sdf.format(calendar.getTime());
-//            if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-//                selectedTime = selectedTime + "AM";
-//            } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-//                selectedTime = selectedTime + "PM";
-//            }
 
             if (programSlot == null) {
                 programSlot = new ProgramSlot();
             }
             programSlot.setStartTime(selecteddate + " " + selectedTime);
             textView_timeslot.setError(null);
-//            } else {
-//                selectedTime_copy_to = sdf.format(calendar.getTime());
-//                if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-//                    selectedTime_copy_to = selectedTime_copy_to + "AM";
-//                } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-//                    selectedTime_copy_to = selectedTime_copy_to + "PM";
-//                }
-//                textView_timeslotForCopy.setText(selecteddate_copy_to + " " + selectedTime_copy_to);
-//            }
 
             updateUI();
         }
