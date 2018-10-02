@@ -1,6 +1,3 @@
-/**
- *@author: neelima nair
- */
 package sg.edu.nus.iss.phoenix.schedule.android.controller;
 
 import android.content.Intent;
@@ -14,6 +11,12 @@ import sg.edu.nus.iss.phoenix.schedule.android.delegate.ModifyScheduleDelegate;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 import sg.edu.nus.iss.phoenix.schedule.android.ui.ReviewSelectScheduleProgramScreen;
 
+/**
+ * <p><b>MaintainScheduleController</b> controls the flow between the schedule
+ * screen to the backend for creating, modifying, deleting and copying the program slots.</p>
+ *
+ *@author: neelima nair
+ */
 public class MaintainScheduleController {
 
     CreateScheduleDelegate createDelegate;
