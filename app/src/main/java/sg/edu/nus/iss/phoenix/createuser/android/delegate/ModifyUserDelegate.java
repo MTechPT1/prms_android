@@ -10,9 +10,11 @@ import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
 
 import sg.edu.nus.iss.phoenix.createuser.android.controller.MaintainUserController;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
@@ -23,7 +25,7 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
 
     private static final String TAG = ModifyUserDelegate.class.getName();
     private MaintainUserController maintainUserController;
-
+    String errorMsg = "Modify User Failed";
     public ModifyUserDelegate(MaintainUserController maintainUserController){
         this.maintainUserController = maintainUserController;
     }
@@ -71,6 +73,7 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
         }
 
         boolean success = false;
+        String jsonResp = null;
         HttpURLConnection httpURLConnection = null;
         DataOutputStream dos = null;
         try {
@@ -85,7 +88,19 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
             dos.writeUTF(json.toString());
             dos.write(256);
             Log.v(TAG, "Http PUT response " + httpURLConnection.getResponseCode());
-            success = true;
+            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                success = true;
+            }else {
+                InputStream in = httpURLConnection.getErrorStream();
+                Log.v(TAG, "Http POST response content " + httpURLConnection.getErrorStream());
+                Scanner scanner = new Scanner(in);
+                scanner.useDelimiter("\\A");
+                if (scanner.hasNext()) {
+                    jsonResp = scanner.next();
+                    errorMsg = errorMessages(jsonResp);
+                }
+                success = false;
+            }
         } catch (IOException exception) {
             Log.v(TAG, exception.getMessage());
         } finally {
@@ -101,9 +116,19 @@ public class ModifyUserDelegate extends AsyncTask <User, Void, Boolean>{
         }
         return new Boolean(success);
     }
-
+    private String errorMessages(String result){
+        String errorMessage =null;
+        try {
+            JSONObject reader = new JSONObject(result);
+            errorMessage = reader.getString("errorMessage");
+           // String status = reader.getString("httpStatus");
+        } catch (JSONException e) {
+            Log.v(TAG, e.getMessage());
+        }
+        return errorMessage;
+    }
     @Override
     protected void onPostExecute(Boolean result) {
-        this.maintainUserController.userModified(result.booleanValue());
+        this.maintainUserController.userModified(result.booleanValue(),errorMsg);
     }
 }
