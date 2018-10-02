@@ -19,12 +19,24 @@ import java.util.ArrayList;
 import sg.edu.nus.iss.phoenix.R;
 import sg.edu.nus.iss.phoenix.schedule.android.entity.ProgramSlot;
 
+/**
+ * <p><b>ScheduleProgramAdapter</b> Adapater of the ProgramSlot</p>
+ *
+ * @author: Wai Kin
+ */
 public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
     private Context context;
     ArrayList<ProgramSlot> programSlots;
     ScheduleProgramAdapter.ModifyScheduleListener ms;
 
 
+    /**
+     * Constructor of the ScheduleProgramAdapter
+     *
+     * @param context     context
+     * @param programSlot programSlot to be display
+     * @param ms          Listenner
+     */
     public ScheduleProgramAdapter(@NonNull Context context, ArrayList<ProgramSlot> programSlot, ScheduleProgramAdapter.ModifyScheduleListener ms) {
         super(context, 0, programSlot);
         this.context = context;
@@ -32,6 +44,14 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
         this.ms = ms;
     }
 
+    /**
+     * getView() for ArrayAdapter
+     *
+     * @param position    position in the list
+     * @param convertView view
+     * @param parent      viewGroup
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -52,6 +72,12 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
         return listItemView;
     }
 
+    /**
+     * To bind the option button
+     *
+     * @param convertview view
+     * @param position    position in the list
+     */
     private void addButtonAction(final View convertview, final int position) {
         ImageButton optionBtn = (ImageButton) convertview.findViewById(R.id.optionBtn);
         optionBtn.setTag(position);
@@ -64,6 +90,12 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
         });
     }
 
+    /**
+     * To show the option buttons
+     *
+     * @param v        view
+     * @param position position in the list
+     */
     private void addListOfOptionButtons(View v, final int position) {
         PopupMenu popup = new PopupMenu(context, v.findViewWithTag(position), Gravity.CENTER);
         popup.getMenu().add(Menu.NONE, 1, 1, "MODIFY");
@@ -94,6 +126,9 @@ public class ScheduleProgramAdapter extends ArrayAdapter<ProgramSlot> {
         popup.show();
     }
 
+    /**
+     * Interface for ModifyScheduleListener
+     */
     public interface ModifyScheduleListener {
         void editSchedule(int position);
 
