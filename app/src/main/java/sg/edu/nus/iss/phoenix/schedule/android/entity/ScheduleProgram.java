@@ -2,6 +2,11 @@ package sg.edu.nus.iss.phoenix.schedule.android.entity;
 
 import java.util.List;
 
+/**
+ * <p><b>ScheduleProgram</b> Entity of the Schedule Program</p>
+ *
+ *@author: Wai Kin
+ */
 public class ScheduleProgram {
 
     List<ProgramSlot> programSlots;

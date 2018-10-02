@@ -5,6 +5,11 @@ import java.io.Serializable;
 import sg.edu.nus.iss.phoenix.createuser.android.entity.User;
 import sg.edu.nus.iss.phoenix.radioprogram.entity.RadioProgram;
 
+/**
+ * <p><b>ProgramSlot</b> Entity of the ProgramSlot</p>
+ *
+ *@author: Wai Kin
+ */
 public class ProgramSlot implements Serializable {
 
     private int id;
